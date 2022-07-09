@@ -59,7 +59,7 @@ int	ft_get_digits(long int n)
 	return (size);
 }
 
-char	*ft_itoa(long long int n)
+char	*ft_pf_itoa(long long int n)
 {
 	char		*result;
 	long int	num;

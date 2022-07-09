@@ -23,7 +23,7 @@ size_t	ft_strlen(const char *s1)
 		i++;
 	return (i);
 }
-
+/*
 char	*ft_strndup(char *src, int size)
 {
 	int		i;
@@ -42,9 +42,9 @@ char	*ft_strndup(char *src, int size)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
+}*/
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;

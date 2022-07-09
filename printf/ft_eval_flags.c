@@ -60,7 +60,7 @@ char	*ft_eval_width_ex(t_print *tab, char *src2)
 		if (!tab->dash && !tab->zero)
 			res = ft_str_padding(tab->width, src2, " ", 0);
 		if (tab->dash)
-			res = ft_str_padding(tab->width, src2, " ", ft_strlen(src2));
+			res = ft_str_padding(tab->width, src2, " ", ft_pf_strlen(src2));
 		if (tab->zero)
 		{
 			if (tab->hashtag && tab->pnt == 0)
@@ -84,7 +84,7 @@ char	*ft_eval_precision_dec(t_print *tab, unsigned int d)
 
 	if (tab->pnt == 1)
 	{
-		src3 = ft_itoa(d);
+		src3 = ft_pf_itoa(d);
 		if (tab->precision == 0 && d == 0)
 		{
 			src2 = (char *)malloc(sizeof(char) * 1);
@@ -95,7 +95,7 @@ char	*ft_eval_precision_dec(t_print *tab, unsigned int d)
 		free(src3);
 	}
 	else
-		src2 = ft_itoa(d);
+		src2 = ft_pf_itoa(d);
 	return (src2);
 }
 

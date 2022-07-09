@@ -84,77 +84,7 @@ char	*get_next_line(int fd)
 	ft_update_line(line, ft_strlen(line));
 	return (line);
 }
-/*
-char	*get_next_line(int fd)
-{
-	static char		*tosave;
-	char			buffer[BUFFER_SIZE + 1];
-	char			*line;
-	int				byte_read;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
-		return (NULL);
-	line = ft_strndup(tosave, ft_strlen(tosave));
-	byte_read = 1;
-	buffer[0] = 0;
-	while (byte_read && !ft_strchr(buffer) && !ft_strchr(line))
-	{
-		byte_read = read(fd, buffer, BUFFER_SIZE);
-		if (byte_read < 0)
-			return (NULL);
-		line = ft_create_line(buffer, byte_read, line);
-	}
-	if (ft_strchr(tosave))
-		ft_update_buffer(tosave, ft_strlen(tosave));
-	else
-	{
-		ft_update_buffer(buffer, BUFFER_SIZE);
-		free(tosave);
-		tosave = ft_strndup(buffer, BUFFER_SIZE);
-	}
-	ft_update_line(line, ft_strlen(line));
-	return (line);
-}*/
-/*
-char	*get_next_line(int fd)
-{
-	static char		*tosave;
-	char			buffer[BUFFER_SIZE + 1];
-	char			*line;
-	int				byte_read;
-
-	if (fd < 0 || BUFFER_SIZE < 0)
-		return (NULL);
-	line = ft_strndup(tosave, ft_strlen(tosave));
-	if (ft_strchr(line))
-	{
-		ft_update_buffer(tosave, ft_strlen(tosave));
-		ft_update_line(line, ft_strlen(line));
-		return (line);
-	}
-	free(tosave);
-	byte_read = 1;
-	buffer[0] = 0;
-	while (byte_read && !ft_strchr(buffer) && !ft_strchr(line))
-	{
-		byte_read = read(fd, buffer, BUFFER_SIZE);
-		if (byte_read < 0)
-			return (NULL);
-		line = ft_create_line(buffer, byte_read, line);
-	}
-	if (ft_strchr(tosave))
-		ft_update_buffer(tosave, ft_strlen(tosave));
-	else
-	{
-		ft_update_buffer(buffer, BUFFER_SIZE);
-		free(tosave);
-		tosave = ft_strndup(buffer, BUFFER_SIZE);
-	}
-	ft_update_line(line, ft_strlen(line));
-//	ft_update_buffer(buffer, BUFFER_SIZE);
-//	tosave = ft_strndup(buffer, BUFFER_SIZE);
-	return (line);
-}*/
 /*
 int	main(int ac, char **av)
 {

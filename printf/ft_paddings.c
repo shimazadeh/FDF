@@ -17,7 +17,7 @@ char	*ft_str_cut(t_print *tab, char *str)
 	int		size;
 	int		i;
 
-	size = ft_strlen(str);
+	size = ft_pf_strlen(str);
 	i = 0;
 	if (tab->pnt == 1 && tab->precision == 0)
 		size = 0;
@@ -44,7 +44,7 @@ char	*ft_str_multi_padding_left(char *src, char *padding)
 	int		i;
 	int		width;
 
-	width = ft_strlen(src) + ft_strlen(padding);
+	width = ft_pf_strlen(src) + ft_pf_strlen(padding);
 	i = 0;
 	res = (char *)malloc(sizeof(char) *(width + 1));
 	if (!res || !padding)
@@ -80,7 +80,7 @@ char	*ft_str_padding(int width, char *src, char *padding, int start)
 		dest[i++] = *src;
 		src++;
 	}
-	while (padding && i != (final_width - ft_strlen(src)))
+	while (padding && i != (final_width - ft_pf_strlen(src)))
 		dest[i++] = *padding;
 	while (*src)
 	{
@@ -122,11 +122,11 @@ char	*ft_int_add_char(long long int d, char c)
 	i = 1;
 	j = 0;
 	if (!c || d < 0)
-		return (ft_itoa(d));
+		return (ft_pf_itoa(d));
 	else
 	{
-		src = ft_itoa(d);
-		dest = (char *)malloc(sizeof(char) * (ft_strlen(src) + 2));
+		src = ft_pf_itoa(d);
+		dest = (char *)malloc(sizeof(char) * (ft_pf_strlen(src) + 2));
 		dest[0] = c;
 		while (src[j])
 		{

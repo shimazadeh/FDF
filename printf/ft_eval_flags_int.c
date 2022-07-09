@@ -60,7 +60,7 @@ char	*ft_eval_precision_int(t_print *tab, int src)
 		src2[0] = '\0';
 	}
 	else
-		src2 = ft_itoa(src);
+		src2 = ft_pf_itoa(src);
 	if (tab->pnt == 1)
 	{
 		if (src < 0)
@@ -98,7 +98,7 @@ char	*ft_eval_width_str(t_print *tab, char *src2)
 		if (tab->zero)
 			res = ft_str_padding(tab->width, src2, "0", 0);
 		if (tab->dash)
-			res = ft_str_padding(tab->width, src2, " ", ft_strlen(src2));
+			res = ft_str_padding(tab->width, src2, " ", ft_pf_strlen(src2));
 		free(src2);
 	}
 	else

@@ -21,6 +21,7 @@
 #include <X11/X.h>
 #include "get_next_line.h"
 #include "Libft/libft.h"
+#include "printf/ft_printf.h"
 
 
 # define MLX_ERROR 1
@@ -39,12 +40,15 @@ typedef struct	s_img {
 	int		endian;
 }t_img;
 
-typedef struct s_coordinate{
+typedef struct s_array{
 	int x;
 	int y;
 	int z;
 	int color;
-} t_coordinate;
+
+	int x_screen;
+	int y_screen;
+} t_array;
 
 typedef	struct	s_rect {
 	int x; //coordinate of origin
@@ -58,6 +62,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	char	**array;//a table with the size
 	t_img	img;
 } t_data;
 

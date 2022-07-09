@@ -17,7 +17,7 @@ int	ft_pf_putchar(const char c)
 	return (1);
 }
 
-int	ft_strlen(char *str)
+int	ft_pf_strlen(const char *str)
 {
 	int	i;
 
@@ -54,11 +54,11 @@ char	*ft_strndup(char	*src, int size)
 
 int	ft_max_width(int width, char *src)
 {
-	int	src_len;
+//	int	src_len;
 
-	src_len = ft_strlen(src);
-	if (width > ft_strlen(src))
+//	src_len = ft_pf_strlen(src);
+	if (width > ft_pf_strlen(src))
 		return (width);
 	else
-		return (ft_strlen(src));
+		return (ft_pf_strlen(src));
 }

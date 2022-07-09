@@ -15,7 +15,7 @@ NAME = FDF
 LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
-SRCS = main.c get_next_line.c get_next_line_utils.c
+SRCS = fdf.c get_next_line.c get_next_line_utils.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -26,7 +26,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(MAKE) -C ./Libft
 	$(MAKE) -C ./printf
-	gcc $(OBJS) -L minilibx-linux -lmlx -lXext -lX11 -lm -o $(NAME)
+	gcc $(OBJS) -L minilibx-linux -lmlx -lXext -lX11 -lm -o $(NAME) $(PRINTF) $(LIBFT)
 
 %.o: %.c
 	gcc $(FLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@

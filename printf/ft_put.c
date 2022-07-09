@@ -24,7 +24,7 @@ int	ft_pf_putstr_char(char *s)
 	int	i;
 
 	i = 0;
-	while (i != ft_strlen(s))
+	while (i != ft_pf_strlen(s))
 	{
 		write(1, &s[i], 1);
 		i++;

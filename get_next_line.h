@@ -25,7 +25,7 @@ size_t	ft_strlen(const char *s1);
 int     ft_gnl_strchr(char *s1);
 
 char	*ft_strndup(char *src, int size);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
 char	*get_next_line(int fd);
 
 void	ft_update_buffer(char *buffer, int size);

@@ -67,7 +67,7 @@ int	ft_printinteger(t_print *tab)
 	if (tab->width)
 	{
 		if (tab->dash)
-			res = ft_str_padding(tab->width, src2, " ", ft_strlen(src2));
+			res = ft_str_padding(tab->width, src2, " ", ft_pf_strlen(src2));
 		if (tab->zero && tab->pnt == 0 && ft_strchr_boolean(*src2, "+-") == 0)
 			res = ft_str_padding(tab->width, src2, "0", 0);
 		if (tab->zero && tab->pnt == 0 && ft_strchr_boolean(*src2, "+- ") == 1)
@@ -94,7 +94,7 @@ int	ft_printdecimal(t_print *tab)
 	if (tab->width)
 	{
 		if (tab->dash)
-			res = ft_str_padding(tab->width, src2, " ", ft_strlen(src2));
+			res = ft_str_padding(tab->width, src2, " ", ft_pf_strlen(src2));
 		if (tab->zero && tab->pnt == 0)
 			res = ft_str_padding(tab->width, src2, "0", 0);
 		if (tab->zero && tab->pnt == 1)

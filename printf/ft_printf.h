@@ -40,13 +40,13 @@ int			ft_atoi(const char *str);
 int			ft_str_count(const char *str);
 int			ft_eval_format(t_print *tab, const char **str);
 int			ft_strchr_boolean(char c, char *str);
-int			ft_strlen(char *str);
+int			ft_pf_strlen(const char *str);
 int			ft_printf(const char *str, ...);
 int			ft_pf_putchar(const char c);
 int			ft_pf_putstr(char *s);
 
 char		*ft_strndup(char *src, int size);
-char		*ft_itoa(long long int d);
+char		*ft_pf_itoa(long long int n);
 char		*ft_itoa_sign(long int d);
 char		*ft_str_cut(t_print *tab, char *str);
 char		*ft_str_multi_padding_left(char *src, char *padding);
@@ -91,4 +91,6 @@ char		*ft_eval_precision_dec(t_print *tab, unsigned int d);
 char		*ft_eval_width_str(t_print *tab, char *src2);
 
 int			ft_eval_char_null(t_print *tab, char src);
+int			ft_printf(const char *str, ...);
+
 #endif
