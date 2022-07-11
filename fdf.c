@@ -12,58 +12,119 @@
 
 #include "fdf.h"
 
-int	number_of_lines(int fd)
+void	free_data(t_data data)
 {
-	int 	width;
-	char	*buffer;
-	int		length;
+	int	i;
 
-	if (fd < 0)
-		return (-1);
-	buffer = get_next_line(fd);
-	if (buffer)
-		width = 1;
-	else
-		width = 0;
-	tab = ft_split(buffer, ' ');
-	length = ft_strlen(*tab);
-	while (buffer)
+	i = 0;
+	while (data.array && data.array[i])
+		i++;
+	while (i > 0)
 	{
-		tab = ft_split(buffer, ' ');
-		lines++;
+		i--;
+		free(data.array[i]);
+	}
+	free(data.array);
+	return ;
+}
+
+char	**glob_free(char **dst)
+{
+	int	i;
+
+	i = 0;
+	while (dst && dst[i])
+		i++;
+	while (i > 0)
+	{
+		i--;
+		free((void *)dst[i]);
+	}
+	free (dst);
+	return (NULL);
+}
+
+int	number_of_lines(int fd, int dimension[2])
+{
+	char	*buffer;
+
+	dimension[0] = 0;
+	dimension[1] = 0;
+	if (fd < 0)
+		return (ft_printf("error reading the file\n"), -1);
+	buffer = get_next_line(fd);
+	if (!buffer)
+		return (ft_printf("empty file\n"), -1);
+	dimension[0] = ft_size_word(buffer, ' ') - 1;
+	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
+	{
+		if (dimension[0] != ft_size_word(buffer, ' ') - 1)
+			return (ft_printf("inconsistent line length\n") , -1);
+		dimension[1]++;
+		ft_printf("the line is: %s\n", buffer);
 		free(buffer);
 		buffer = get_next_line(fd);
 	}
-	return (lines);
-
+	free(buffer);
+	close(fd);
+	return (0);
 }
-t_data	fdf_parsing(int fd)
+
+t_data	fdf_parsing(int fd, int dimensions[2])
 {
 	char	*buffer;
-	char	*tab;
+	char	**tab;
+	t_data	data;
 	int		y;
 	int		x;
+	char	**color;
 
 	if (fd < 0)
-		return (-1);
+		return (data);
 	y = 0;
 	buffer = get_next_line(fd);
-	while (buffer)
+	data.array = (t_array **) malloc((sizeof(t_array *)) * (dimensions[1]));
+	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
 	{
+		x = 0;
 		tab = ft_split(buffer, ' ');
-		while (*tab)
-			data.array =
+		data.array[y] = (t_array *)malloc(sizeof(t_array) * (dimensions[0]));
+		while (tab[x] && x < dimensions[0])
+		{
+			data.array[y][x].x = x;
+			data.array[y][x].y = y;
+			if (ft_strchr(tab[x], ','))
+			{
+				color = ft_split(tab[x], ',');
+				data.array[y][x].z = ft_atoi(color[0]);
+				printf("color is %s\n", color[1]);
+				data.array[y][x].color =ft_strdup(color[1]);
+//				glob_free(color);
+			}
+			else
+			{
+				data.array[y][x].z = ft_atoi(tab[x]);
+				data.array[y][x].color = 0; //default
+			}
+			ft_printf("x is %d, y is %d, z is %d, color is %s\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
+			x++;
+		}
+		ft_printf("-------next line--------\n");
+		glob_free(tab);
 		free(buffer);
 		buffer = get_next_line(fd);
+		y++;
 	}
-	return (lines);
+	free(buffer);
+	close(fd);
+	return (data);
 }
 
 int	main(int ac, char **ag)
 {
 	int 	fd;
-	char	*buffer;
 	t_data	data;
+	int		dimensions[2];
 
 	if (ac == 2)
 	{
@@ -74,13 +135,18 @@ int	main(int ac, char **ag)
 	}
 	else
 		return (ft_printf("invalid number of arguments\n"), -1);
-	data = fdf_parsing(fd);
+	if (number_of_lines(fd, dimensions) < 0)
+		return (-1);
+	ft_printf("width is %d, length is %d\n", dimensions[0], dimensions[1]);
+	fd = open(ag[1], O_RDONLY);
+	data = fdf_parsing(fd, dimensions);
+	free_data(data);
 	return (0);
 }
 
 
 /*step1: read the file line by line using get_next_line
-			 parse each line (use split , if its not integer print a message and exit)
+			 parse each line (if its not integer print a message and exit)
 			 store the values as an array which is part of the structure? (x, y, z, color)
 			 checks:
 			 	some numbers include a specific color separated by comma (,)

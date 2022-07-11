@@ -19,7 +19,8 @@ SRCS = fdf.c get_next_line.c get_next_line_utils.c
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -g3
+# -Werror -g3
 
 all: $(NAME)
 

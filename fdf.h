@@ -44,7 +44,7 @@ typedef struct s_array{
 	int x;
 	int y;
 	int z;
-	int color;
+	char	*color;
 
 	int x_screen;
 	int y_screen;
@@ -62,7 +62,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	char	**array;//a table with the size
+	t_array	**array;//a table with the size
 	t_img	img;
 } t_data;
 
@@ -70,6 +70,8 @@ int	handle_no_event(void *data);
 int	handle_keyrelease(int keysym, t_data *data);
 int	handle_keypress(int keysym, t_data *data);
 int render(t_data *data);
+
+
 
 #endif
 

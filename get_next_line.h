@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 100
 
 size_t	ft_strlen(const char *s1);
 int     ft_gnl_strchr(char *s1);
