@@ -19,6 +19,7 @@
 #include "minilibx-linux/mlx.h"
 #include <X11/keysym.h>
 #include <X11/X.h>
+#include <math.h>
 #include "get_next_line.h"
 #include "Libft/libft.h"
 #include "printf/ft_printf.h"
@@ -41,13 +42,13 @@ typedef struct	s_img {
 }t_img;
 
 typedef struct s_array{
-	int x;
-	int y;
-	int z;
-	char	*color;
+	int 	x;
+	int 	y;
+	int 	z;
+	int		color;
 
-	int x_screen;
-	int y_screen;
+	int 	x_screen;
+	int 	y_screen;
 } t_array;
 
 typedef	struct	s_rect {
@@ -71,6 +72,10 @@ int	handle_keyrelease(int keysym, t_data *data);
 int	handle_keypress(int keysym, t_data *data);
 int render(t_data *data);
 
+t_data	fdf_parsing(int fd, int dimensions[2]);
+int	number_of_lines(int fd, int dimension[2]);
+char	**glob_free(char **dst);
+void	free_data(t_data data, int dimension[2]);
 
 
 #endif

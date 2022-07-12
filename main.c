@@ -1,9 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shabibol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/11 20:57:10 by shabibol          #+#    #+#             */
+/*   Updated: 2022/07/11 20:57:11 by shabibol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int	handle_no_event(void *data)
+void	display(t_data data, int dimensions[2])
 {
-	(void)data;
-	return (0);
+	int x;
+	int y;
+
+	y = 0;
+	while (y < dimensions[1])
+	{
+		x = 0;
+		while(x < dimensions[0])
+		{
+			ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
+			ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
+			ft_printf("---------------------------------------------------------\n");
+			x++;
+		}
+		y++;
+	}
+	return ;
+}
+
+void	convert_3D_to_2D(t_data data, int dimensions[2])
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < dimensions[1])
+	{
+		x = 0;
+		while(x < dimensions[0])
+		{
+			data.array[y][x].x_screen = (data.array[y][x].x - data.array[y][x].y) * cos(0.523599) + WINDOW_WIDTH / 2;
+			data.array[y][x].y_screen = (data.array[y][x].x + data.array[y][x].y) * sin(0.523599) - data.array[y][x].z + WINDOW_HEIGHT / 2;
+			x++;
+		}
+		y++;
+	}
+	return ;
 }
 
 int	handle_keypress(int keysym, t_data *data)
@@ -11,13 +58,6 @@ int	handle_keypress(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	printf("keypress: %d\n", keysym);
-	return (0);
-}
-
-int	handle_keyrelease(int keysym, t_data *data)
-{
-	(void) data;
-	printf("keyreleased: %d\n", keysym);
 	return (0);
 }
 
@@ -38,59 +78,57 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 	}
 }
 
-int render_rect(t_img *img, t_rect rect)
+int	render_map(t_data *data)
 {
 	int j;
 	int i;
-
-	j = rect.y;
-	while (j < rect.y + rect.height)
-	{
-		i = rect.x;
-		while(i < rect.x + rect.width)
-		{
-			if (i == rect.x || i == rect.x + rect.width - 1)
-				img_pix_put(img, i, j, rect.color);
-			i++;
-		}
-		j++;
-	}
-	return (0);
-}
-
-int render_background(t_img *img, int color)
-{
-	int i;
-	int j;
 
 	i = 0;
-	while (i < WINDOW_HEIGHT)
-	{
-		j = 0;
-		while (j < WINDOW_WIDTH)
-			img_pix_put(img, j++, i, color);
-		++i;
-	}
-	return (0);
-}
-
-int render(t_data *data)
-{
+	j = 0;
 	if (data->win_ptr == NULL)
 		return (1);
-//	render_background(&data->img, WHITE_PIXEL);
-	render_rect(&data->img, (t_rect){WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100, 100, 100, GREEN_PIXEL});
-	render_rect(&data->img, (t_rect){0, 0, 100, 100, RED_PIXEL});
-
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-
+	while (j < WINDOW_HEIGHT)
+	{
+		i = 0;
+		while (i < WINDOW_WIDTH)
+		{
+			if(data->array[j][i].x_screen == i && data->array[j][i].y_screen == j)
+				img_pix_put(&data->img, i, j, WHITE_PIXEL);//data.array[j][i].color);
+			i++;
+		}
+		++j;
+	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0 , 0);
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **ag)
 {
+	int 	fd;
 	t_data	data;
+	int		dimensions[2];
 
+	if (ac == 2)
+	{
+		fd = open(ag[1], O_RDONLY);
+		if (fd < 0)
+			return (ft_printf("error opening the map\n"), -1);
+		ft_printf("the value of fd is %d\n", fd);
+	}
+	else
+		return (ft_printf("invalid number of arguments\n"), -1);
+	if (number_of_lines(fd, dimensions) < 0)
+		return (-1);
+//	ft_printf("width is %d, length is %d\n", dimensions[0], dimensions[1]);
+
+	fd = open(ag[1], O_RDONLY);
+/****parsing and converting the dimensions****/
+	data = fdf_parsing(fd, dimensions);
+	convert_3D_to_2D(data, dimensions);
+//	display(data, dimensions);
+
+
+/****printing the points****/
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (MLX_ERROR);
@@ -100,27 +138,32 @@ int	main(void)
 		free(data.win_ptr);
 		return (MLX_ERROR);
 	}
-	//TODO : create main img
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
-	mlx_loop_hook(data.mlx_ptr, &render, &data); //call function to do : #1 calculte stuff #2 rendering stuff according to calculated datas
+	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-//	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, &handle_keyrelease, &data);
 
 	mlx_loop(data.mlx_ptr);
-
-//	mlx_destroy_window(mlx_ptr, mlx_win);
+//	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);
+	free_data(data, dimensions);
 	return (0);
 }
 
 
-/*
-	//TODO : create main img
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, cub->img.img_ptr, 0, 0);
-	mlx_hook(cub->win, 33, 1L << 17, &ft_exit, cub); //cross red event to close window
-	mlx_hook(cub->win, 2, 1L << 0, &key_press, cub);
-	mlx_hook(cub->win, 3, 1L << 1, &key_release, cub);
-	mlx_loop_hook(data.mlx_ptr, &handle_no_event, &data); //call function to do : #1 calculte stuff #2 rendering stuff according to calculated datas
-	mlx_key_hook(data.win_ptr, &handle_input, &data);*/
+/*step1: read the file line by line using get_next_line
+			 parse each line (if its not integer print a message and exit)
+			 store the values as an array which is part of the structure? (x, y, z, color)
+			 checks:
+			 	some numbers include a specific color separated by comma (,)
+				the length of all rows must be equal to each other
+			store the dimension of the map
+
+	  step2:
+			use the structure created previously to draw each point
+			connect the points using the bresenham algorithm
+
+array = two dimensional table
+
+	  */

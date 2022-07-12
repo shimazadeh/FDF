@@ -12,16 +12,21 @@
 
 #include "fdf.h"
 
-void	free_data(t_data data)
+void	free_data(t_data data, int dimensions[2])
 {
 	int	i;
+//	int	j;
 
-	i = 0;
-	while (data.array && data.array[i])
-		i++;
+	i = dimensions[1];
 	while (i > 0)
 	{
 		i--;
+	/*	j = dimensions[0];
+		while (j > 0)
+		{
+			j--;
+			free(data.array[i][j].color);
+		}*/
 		free(data.array[i]);
 	}
 	free(data.array);
@@ -61,7 +66,7 @@ int	number_of_lines(int fd, int dimension[2])
 		if (dimension[0] != ft_size_word(buffer, ' ') - 1)
 			return (ft_printf("inconsistent line length\n") , -1);
 		dimension[1]++;
-		ft_printf("the line is: %s\n", buffer);
+//		ft_printf("the line is: %s\n", buffer);
 		free(buffer);
 		buffer = get_next_line(fd);
 	}
@@ -97,19 +102,20 @@ t_data	fdf_parsing(int fd, int dimensions[2])
 			{
 				color = ft_split(tab[x], ',');
 				data.array[y][x].z = ft_atoi(color[0]);
-				printf("color is %s\n", color[1]);
-				data.array[y][x].color =ft_strdup(color[1]);
-//				glob_free(color);
+//				printf("color is %s\n", color[1]);
+				if(!color[1])
+					data.array[y][x].color = WHITE_PIXEL; //default is white
+				else
+					data.array[y][x].color =ft_atoi(color[1]);
+				glob_free(color);
 			}
 			else
 			{
 				data.array[y][x].z = ft_atoi(tab[x]);
-				data.array[y][x].color = 0; //default
+				data.array[y][x].color = WHITE_PIXEL; //default
 			}
-			ft_printf("x is %d, y is %d, z is %d, color is %s\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
 			x++;
 		}
-		ft_printf("-------next line--------\n");
 		glob_free(tab);
 		free(buffer);
 		buffer = get_next_line(fd);
@@ -120,43 +126,3 @@ t_data	fdf_parsing(int fd, int dimensions[2])
 	return (data);
 }
 
-int	main(int ac, char **ag)
-{
-	int 	fd;
-	t_data	data;
-	int		dimensions[2];
-
-	if (ac == 2)
-	{
-		fd = open(ag[1], O_RDONLY);
-		if (fd < 0)
-			return (ft_printf("error opening the map\n"), -1);
-		ft_printf("the value of fd is %d\n", fd);
-	}
-	else
-		return (ft_printf("invalid number of arguments\n"), -1);
-	if (number_of_lines(fd, dimensions) < 0)
-		return (-1);
-	ft_printf("width is %d, length is %d\n", dimensions[0], dimensions[1]);
-	fd = open(ag[1], O_RDONLY);
-	data = fdf_parsing(fd, dimensions);
-	free_data(data);
-	return (0);
-}
-
-
-/*step1: read the file line by line using get_next_line
-			 parse each line (if its not integer print a message and exit)
-			 store the values as an array which is part of the structure? (x, y, z, color)
-			 checks:
-			 	some numbers include a specific color separated by comma (,)
-				the length of all rows must be equal to each other
-			store the dimension of the map
-
-	  step2:
-			use the structure created previously to draw each point
-			connect the points using the bresenham algorithm
-
-array = two dimensional table
-
-	  */

@@ -15,7 +15,7 @@ NAME = FDF
 LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
-SRCS = fdf.c get_next_line.c get_next_line_utils.c
+SRCS = main.c parsing.c get_next_line.c get_next_line_utils.c
 
 OBJS = $(SRCS:%.c=%.o)
 
