@@ -49,6 +49,7 @@ typedef struct s_array{
 
 	int 	x_screen;
 	int 	y_screen;
+
 } t_array;
 
 typedef	struct	s_rect {
@@ -65,6 +66,8 @@ typedef struct s_data
 	void	*win_ptr;
 	t_array	**array;//a table with the size
 	t_img	img;
+	int		width;
+	int		length;
 } t_data;
 
 int	handle_no_event(void *data);
@@ -76,6 +79,7 @@ t_data	fdf_parsing(int fd, int dimensions[2]);
 int	number_of_lines(int fd, int dimension[2]);
 char	**glob_free(char **dst);
 void	free_data(t_data data, int dimension[2]);
+void	img_pix_put(t_img *img, int x, int y, int color);
 
 
 #endif
