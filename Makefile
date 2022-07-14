@@ -16,7 +16,6 @@ LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
 SRCS = main.c mlx_practice.c parsing.c get_next_line.c get_next_line_utils.c
-# SRCS = mlx_practice.c get_next_line.c get_next_line_utils.c
 
 
 OBJS = $(SRCS:%.c=%.o)

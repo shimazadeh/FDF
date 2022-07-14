@@ -18,14 +18,35 @@ void	display(t_data data, int dimensions[2])
 	int y;
 
 	y = 0;
+	while (y < dimensions[1])
+	{
+		x = 0;
+		while(x < dimensions[0])
+		{
+			// ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
+			ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
+			ft_printf("---------------------------------------------------------\n");
+			x++;
+		}
+		y++;
+	}
+	return ;
+}
+
+void	scaling(t_data data)
+{
+	int	x;
+	int y;
+
+	y = 0;
 	while (y < data.length)
 	{
 		x = 0;
-		while(x < data.width)
+		while (x < data.width)
 		{
-			ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
-			ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
-			ft_printf("---------------------------------------------------------\n");
+			data.array[y][x].x = data.array[y][x].x * 50;
+			data.array[y][x].y = data.array[y][x].y * 50;
+			data.array[y][x].z = data.array[y][x].z * 50;
 			x++;
 		}
 		y++;
@@ -39,63 +60,56 @@ void	convert_3D_to_2D(t_data data, int dimensions[2])
 	int	y;
 
 	y = 0;
-	dimensions[0] = data.width;
-	dimensions[1] = data.length;
+	// data.width = dimensions[0];
+	// data.length = dimensions[1];
 	while (y < dimensions[1])
 	{
 		x = 0;
 		while(x < dimensions[0])
 		{
+			// data.array[y][x].x_screen = data.array[y][x].x + cos(0.523599) * (data.array[y][x].y - data.array[y][x].z);
+			// data.array[y][x].y_screen = -(data.array[y][x].y + data.array[y][x].z) * sin(0.523599);
 			data.array[y][x].x_screen = (data.array[y][x].x - data.array[y][x].y) * cos(0.523599) + WINDOW_WIDTH / 2;
 			data.array[y][x].y_screen = (data.array[y][x].x + data.array[y][x].y) * sin(0.523599) - data.array[y][x].z + WINDOW_HEIGHT / 2;
+
+			// data.array[y][x].x_screen = data.array[y][x].x_screen * 1.5;
+			// data.array[y][x].y_screen = data.array[y][x].y_screen * 1.5;
 			x++;
 		}
 		y++;
 	}
 	return ;
 }
-/*
-int	handle_keypress(int keysym, t_data *data)
-{
-	if (keysym == XK_Escape)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	printf("keypress: %d\n", keysym);
-	return (0);
-}
-
-void	img_pix_put(t_img *img, int x, int y, int color)
-{
-	char	*pixel;
-	int		i;
-
-	i = img->bits_per_pixel - 8;
-	pixel = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	while (i >= 0)
-	{
-		if (img->endian != 0)
-			*pixel++ = (color >> i) & 0xFF;
-		else
-			*pixel++ = (color >> (img->bits_per_pixel - 8 - i)) & 0xFF;
-		i -= 8;
-	}
-}*/
 
 int	render_map(t_data *data)
 {
 	int j;
 	int i;
+	int	y;
+	int	x;
 
-	i = 0;
-	j = 0;
+	i = data->array[0][0].x_screen;
+	j = data->array[0][0].y_screen;
 	if (data->win_ptr == NULL)
 		return (1);
-	while (j < data->length)
+	while (j < data->array[0][0].y_screen + data->length)
 	{
 		i = 0;
-		while (i < data->width)
+		while (i < data->array[0][0].x_screen + data->width)
 		{
-			if(data->array[j][i].x_screen == i && data->array[j][i].y_screen == j)
-				img_pix_put(&data->img, i, j, WHITE_PIXEL);//data.array[j][i].color);
+			// printf("x position is %d, y position is %d\n", i, j);
+			y = 0;
+			while(y < data->length)
+			{
+				x = 0;
+				while (x < data->width)
+				{
+					if(data->array[y][x].x_screen == i && data->array[y][x].y_screen == j)
+						img_pix_put(&data->img, i, j, RED_PIXEL);//data.array[j][i].color);
+					x++;
+				}
+				y++;
+			}
 			i++;
 		}
 		++j;
@@ -126,12 +140,18 @@ int	main(int ac, char **ag)
 	fd = open(ag[1], O_RDONLY);
 /****parsing and converting the dimensions****/
 	data = fdf_parsing(fd, dimensions);
+	data.width = dimensions[0];
+	data.length = dimensions[1];
+	// shift_the_center(data);
+	scaling(data);
 	convert_3D_to_2D(data, dimensions);
+
+	// ft_printf("width is %d, length is %d\n", data.width, data.length);
 	display(data, dimensions);
 
 
 /****printing the points****/
-/*	data.mlx_ptr = mlx_init();
+	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (MLX_ERROR);
 	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "FDF");
@@ -148,8 +168,8 @@ int	main(int ac, char **ag)
 	mlx_loop(data.mlx_ptr);
 //	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 	mlx_destroy_display(data.mlx_ptr);
-	free(data.mlx_ptr);*/
-//	free_data(data, dimensions);
+	free(data.mlx_ptr);
+	free_data(data, dimensions);
 	return (0);
 }
 

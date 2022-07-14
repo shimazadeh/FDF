@@ -26,8 +26,8 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 600
-# define WINDOW_HEIGHT 300
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
