@@ -41,6 +41,12 @@ typedef struct	s_img {
 	int		endian;
 }t_img;
 
+typedef struct s_matrix{
+	int rows;
+	int columns;
+	double **data;
+}t_matrix;
+
 typedef struct s_array{
 	int 	x;
 	int 	y;
@@ -50,7 +56,7 @@ typedef struct s_array{
 	int 	x_screen;
 	int 	y_screen;
 
-} t_array;
+}t_array;
 
 typedef	struct	s_rect {
 	int x; //coordinate of origin

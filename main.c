@@ -33,54 +33,6 @@ void	display(t_data data, int dimensions[2])
 	return ;
 }
 
-void	scaling(t_data data)
-{
-	int	x;
-	int y;
-
-	y = 0;
-	while (y < data.length)
-	{
-		x = 0;
-		while (x < data.width)
-		{
-			data.array[y][x].x = data.array[y][x].x * 50;
-			data.array[y][x].y = data.array[y][x].y * 50;
-			data.array[y][x].z = data.array[y][x].z * 50;
-			x++;
-		}
-		y++;
-	}
-	return ;
-}
-
-void	convert_3D_to_2D(t_data data, int dimensions[2])
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	// data.width = dimensions[0];
-	// data.length = dimensions[1];
-	while (y < dimensions[1])
-	{
-		x = 0;
-		while(x < dimensions[0])
-		{
-			// data.array[y][x].x_screen = data.array[y][x].x + cos(0.523599) * (data.array[y][x].y - data.array[y][x].z);
-			// data.array[y][x].y_screen = -(data.array[y][x].y + data.array[y][x].z) * sin(0.523599);
-			data.array[y][x].x_screen = (data.array[y][x].x - data.array[y][x].y) * cos(0.523599) + WINDOW_WIDTH / 2;
-			data.array[y][x].y_screen = (data.array[y][x].x + data.array[y][x].y) * sin(0.523599) - data.array[y][x].z + WINDOW_HEIGHT / 2;
-
-			// data.array[y][x].x_screen = data.array[y][x].x_screen * 1.5;
-			// data.array[y][x].y_screen = data.array[y][x].y_screen * 1.5;
-			x++;
-		}
-		y++;
-	}
-	return ;
-}
-
 int	render_map(t_data *data)
 {
 	int j;
@@ -142,9 +94,11 @@ int	main(int ac, char **ag)
 	data = fdf_parsing(fd, dimensions);
 	data.width = dimensions[0];
 	data.length = dimensions[1];
-	// shift_the_center(data);
-	scaling(data);
-	convert_3D_to_2D(data, dimensions);
+///1, write a rotation matrix that takes theta and initializes the rotation matrix
+///2. write a function that multiplies two matrices
+///2. multiply every point of the structure by the rotation matrix which gives you the 2D points
+///3. draw the pixel: you need a limiter in your put pix function to make sure the points are in the screen
+///4.
 
 	// ft_printf("width is %d, length is %d\n", data.width, data.length);
 	display(data, dimensions);
