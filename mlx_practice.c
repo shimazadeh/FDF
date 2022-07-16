@@ -37,7 +37,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 		i -= 8;
 	}
 }
-
+/*
 int render_rect(t_img *img, t_rect rect)
 {
 	int j;
@@ -85,7 +85,7 @@ int render(t_data *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 
 	return (0);
-}
+}*/
 /*
 int	main(void)
 {

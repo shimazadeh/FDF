@@ -96,8 +96,8 @@ t_data	fdf_parsing(int fd, int dimensions[2])
 		data.array[y] = (t_array *)malloc(sizeof(t_array) * (dimensions[0]));
 		while (tab[x] && x < dimensions[0])
 		{
-			data.array[y][x].x = x;
-			data.array[y][x].y = y;
+			data.array[y][x].x = x * 113; //113 pixel is 5cm
+			data.array[y][x].y = y * 113;
 			if (ft_strchr(tab[x], ','))
 			{
 				color = ft_split(tab[x], ',');
@@ -111,7 +111,7 @@ t_data	fdf_parsing(int fd, int dimensions[2])
 			}
 			else
 			{
-				data.array[y][x].z = ft_atoi(tab[x]);
+				data.array[y][x].z = ft_atoi(tab[x]) * 113;
 				data.array[y][x].color = WHITE_PIXEL; //default
 			}
 			x++;

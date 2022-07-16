@@ -23,8 +23,8 @@ void	display(t_data data, int dimensions[2])
 		x = 0;
 		while(x < dimensions[0])
 		{
-			// ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
-			ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
+			ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
+			// ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
 			ft_printf("---------------------------------------------------------\n");
 			x++;
 		}
@@ -39,6 +39,7 @@ int	render_map(t_data *data)
 	int i;
 	int	y;
 	int	x;
+
 
 	i = data->array[0][0].x_screen;
 	j = data->array[0][0].y_screen;
@@ -94,52 +95,37 @@ int	main(int ac, char **ag)
 	data = fdf_parsing(fd, dimensions);
 	data.width = dimensions[0];
 	data.length = dimensions[1];
-///1, write a rotation matrix that takes theta and initializes the rotation matrix
-///2. write a function that multiplies two matrices
-///2. multiply every point of the structure by the rotation matrix which gives you the 2D points
-///3. draw the pixel: you need a limiter in your put pix function to make sure the points are in the screen
-///4.
+	// display(data, dimensions);
 
-	// ft_printf("width is %d, length is %d\n", data.width, data.length);
-	display(data, dimensions);
+	conversion_3D_to_2D(&data);
+	// display(data, dimensions);
 
+// /****printing the points****/
+// 	data.mlx_ptr = mlx_init();
+// 	if (data.mlx_ptr == NULL)
+// 		return (MLX_ERROR);
+// 	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "FDF");
+// 	if (data.win_ptr == NULL)
+// 	{
+// 		free(data.win_ptr);
+// 		return (MLX_ERROR);
+// 	}
+// 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+// 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
+// 	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
+// 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 
-/****printing the points****/
-	data.mlx_ptr = mlx_init();
-	if (data.mlx_ptr == NULL)
-		return (MLX_ERROR);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "FDF");
-	if (data.win_ptr == NULL)
-	{
-		free(data.win_ptr);
-		return (MLX_ERROR);
-	}
-	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
-	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-
-	mlx_loop(data.mlx_ptr);
-//	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
-	mlx_destroy_display(data.mlx_ptr);
-	free(data.mlx_ptr);
+// 	mlx_loop(data.mlx_ptr);
+// //	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
+// 	mlx_destroy_display(data.mlx_ptr);
+// 	free(data.mlx_ptr);
 	free_data(data, dimensions);
 	return (0);
 }
 
 
-/*step1: read the file line by line using get_next_line
-			 parse each line (if its not integer print a message and exit)
-			 store the values as an array which is part of the structure? (x, y, z, color)
-			 checks:
-			 	some numbers include a specific color separated by comma (,)
-				the length of all rows must be equal to each other
-			store the dimension of the map
-
-	  step2:
-			use the structure created previously to draw each point
-			connect the points using the bresenham algorithm
-
-array = two dimensional table
-
-	  */
+///1, write a rotation matrix that takes theta and initializes the rotation matrix
+///2. write a function that multiplies two matrices
+///2. multiply every point of the structure by the rotation matrix which gives you the 2D points
+///3. draw the pixel: you need a limiter in your put pix function to make sure the points are in the screen
+///4.

@@ -90,15 +90,17 @@ t_matrix	initialize_rotation_z_axis(double angle)
 	return (matrix);
 }
 
-t_matrix	multiple_two_matrix(t_matrix A, t_matrix B)
+t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 {
 	t_matrix 	res;
 	int			i;
 	int			j;
 
 	i = 0;
-	// if (A.rows != B.columns)
+	// if (A.columns != B.rows)
 	// 	return (NULL);
+	res.rows = A.rows;
+	res.columns = B.columns;
 	res.data = (double **) malloc(sizeof(double *) * A.rows);
 	while (i < A.rows)
 	{
@@ -112,6 +114,86 @@ t_matrix	multiple_two_matrix(t_matrix A, t_matrix B)
 		i++;
 	}
 	return (res);
+}
+
+void	update_2D_coordinates(t_array array, t_matrix rotation)
+{
+	t_matrix	temp;
+	t_matrix 	res;
+	int			i;
+	int			j;
+
+	temp.rows = 3;
+	temp.columns = 1;
+	temp.data = (double **)malloc(sizeof(double *) * 3);
+	temp.data[0] = (double *)malloc(sizeof(double) * 1);
+	temp.data[1] = (double *)malloc(sizeof(double) * 1);
+	temp.data[2] = (double *)malloc(sizeof(double) * 1);
+
+	temp.data[0][0] = (double) array.x;
+	temp.data[1][0] = (double) array.y;
+	temp.data[2][0] = (double) array.z;
+
+	// printf("%d, %d, %d\n", array.x, array.y, array.z);
+	// printf("%f, %f, %f\n", temp.data[0][0], temp.data[1][0], temp.data[2][0]);
+	res.data = (double **) malloc(sizeof(double *) * rotation.rows);
+	i = 0;
+	printf("----------\n");
+	while (i < rotation.rows)
+	{
+		res.data[i] = (double *)malloc(sizeof(double *) * temp.columns);
+		j = 0;
+		while(j < temp.columns)
+		{
+			res.data[i][j] = rotation.data[i][0]*temp.data[0][j] + rotation.data[i][1]*temp.data[1][j] + rotation.data[i][2]*temp.data[2][j];
+			printf("%f", res.data[i][j]);
+			j++;
+			// printf("%f ", temp.data[0][j]);
+			// printf("%f ", temp.data[1][j]);
+			// printf("%f", temp.data[2][j]);
+		}
+		printf("\n");
+		i++;
+	}
+	printf("----------\n");
+	array.x_screen = res.data[0][0] / res.data[0][2];
+	array.y_screen = res.data[0][1] / res.data[0][2];
+	// printf("x_screen is %f, y screen is %f\n", array.x_screen, array.y_screen);
+	//free(temp)
+	//free(res)
+	return ;
+}
+
+void	conversion_3D_to_2D(t_data *data)
+{
+	int 		i;
+	int 		j;
+	t_matrix	temp;
+	t_matrix	res;
+	t_matrix	x;
+	t_matrix	y;
+	t_matrix	z;
+	t_matrix	rotation;
+
+
+	x = initialize_rotation_x_axis(1.5708);
+	y = initialize_rotation_y_axis(1.5708);
+	z = initialize_rotation_z_axis(1.5708);
+	rotation = multiply_two_matrix(multiply_two_matrix(y,z), x);
+	display_matrix(rotation);
+
+	j = 0;
+	while(j < data->length)
+	{
+		i = 0;
+		while(i < data->width)
+		{
+			update_2D_coordinates(data->array[j][i], rotation);
+			i++;
+		}
+		j++;
+	}
+	return ;
 }
 
 void	display_matrix(t_matrix A)
@@ -134,31 +216,3 @@ void	display_matrix(t_matrix A)
 	printf("\n");
 	return ;
 }
-
-int	main(int ac, char **argc)
-{
-	t_matrix	x;
-	t_matrix	y;
-	t_matrix	z;
-	t_matrix	res;
-	t_matrix	temp;
-	int			i;
-	int			j;
-
-	x = initialize_rotation_x_axis(1.5708);
-	y = initialize_rotation_y_axis(1.5708);
-	z = initialize_rotation_z_axis(1.5708);
-
-	temp = multiple_two_matrix(y,z);
-	res = multiple_two_matrix(temp, x);
-
-	display_matrix(x);
-	display_matrix(y);
-	display_matrix(z);
-	display_matrix(temp);
-	display_matrix(res);
-	return (0);
-}
-
-///2. write a function that multiplies two matrices
-///3. multiply every point of the structure by the rotation matrix which gives you the 2D points

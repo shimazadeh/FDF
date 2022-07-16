@@ -42,9 +42,9 @@ typedef struct	s_img {
 }t_img;
 
 typedef struct s_matrix{
-	int rows;
-	int columns;
-	double **data;
+	int 	rows;
+	int 	columns;
+	double 	**data;
 }t_matrix;
 
 typedef struct s_array{
@@ -53,18 +53,10 @@ typedef struct s_array{
 	int 	z;
 	int		color;
 
-	int 	x_screen;
-	int 	y_screen;
+	double 	x_screen;
+	double 	y_screen;
 
 }t_array;
-
-typedef	struct	s_rect {
-	int x; //coordinate of origin
-	int y; //coordinate of origin
-	int width;
-	int height;
-	int color;
-}t_rect;
 
 typedef struct s_data
 {
@@ -76,16 +68,25 @@ typedef struct s_data
 	int		length;
 } t_data;
 
-int	handle_no_event(void *data);
-int	handle_keyrelease(int keysym, t_data *data);
-int	handle_keypress(int keysym, t_data *data);
-int render(t_data *data);
+int		handle_no_event(void *data);
+int		handle_keyrelease(int keysym, t_data *data);
+int		handle_keypress(int keysym, t_data *data);
+int		render(t_data *data);
+void	img_pix_put(t_img *img, int x, int y, int color);
 
 t_data	fdf_parsing(int fd, int dimensions[2]);
-int	number_of_lines(int fd, int dimension[2]);
+int		number_of_lines(int fd, int dimension[2]);
+
+t_matrix	initialize_rotation_x_axis(double angle);
+t_matrix	initialize_rotation_y_axis(double angle);
+t_matrix	initialize_rotation_z_axis(double angle);
+t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
+void		update_2D_coordinates(t_array array, t_matrix rotation);
+void		conversion_3D_to_2D(t_data *data);
+void		display_matrix(t_matrix A);
+
 char	**glob_free(char **dst);
 void	free_data(t_data data, int dimension[2]);
-void	img_pix_put(t_img *img, int x, int y, int color);
 
 
 #endif
