@@ -26,8 +26,8 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1090
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
@@ -53,8 +53,9 @@ typedef struct s_array{
 	int 	z;
 	int		color;
 
-	double 	x_screen;
-	double 	y_screen;
+	int 	x_screen;
+	int 	y_screen;
+	double 	z_screen;
 
 }t_array;
 
@@ -81,7 +82,7 @@ t_matrix	initialize_rotation_x_axis(double angle);
 t_matrix	initialize_rotation_y_axis(double angle);
 t_matrix	initialize_rotation_z_axis(double angle);
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
-void		update_2D_coordinates(t_array array, t_matrix rotation);
+void		update_2D_coordinates(t_array *array, t_matrix rotation);
 void		conversion_3D_to_2D(t_data *data);
 void		display_matrix(t_matrix A);
 

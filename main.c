@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void	display(t_data data, int dimensions[2])
+void	display(t_data *data, int dimensions[2])
 {
 	int x;
 	int y;
@@ -23,8 +23,8 @@ void	display(t_data data, int dimensions[2])
 		x = 0;
 		while(x < dimensions[0])
 		{
-			ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data.array[y][x].x, data.array[y][x].y, data.array[y][x].z, data.array[y][x].color);
-			// ft_printf("x is %d, y is %d in 2D\n", data.array[y][x].x_screen, data.array[y][x].y_screen);
+			// ft_printf("x is %d, y is %d, z is %d, color is %X in 3D\n", data->array[y][x].x, data->array[y][x].y, data->array[y][x].z, data->array[y][x].color);
+			ft_printf("x is %d, y is %d in 2D, color is %d\n", data->array[y][x].x_screen, data->array[y][x].y_screen, data->array[y][x].color);
 			ft_printf("---------------------------------------------------------\n");
 			x++;
 		}
@@ -40,15 +40,13 @@ int	render_map(t_data *data)
 	int	y;
 	int	x;
 
-
-	i = data->array[0][0].x_screen;
-	j = data->array[0][0].y_screen;
+	j = 0;
 	if (data->win_ptr == NULL)
 		return (1);
-	while (j < data->array[0][0].y_screen + data->length)
+	while (j < WINDOW_HEIGHT)
 	{
 		i = 0;
-		while (i < data->array[0][0].x_screen + data->width)
+		while (i < WINDOW_WIDTH)
 		{
 			// printf("x position is %d, y position is %d\n", i, j);
 			y = 0;
@@ -58,7 +56,7 @@ int	render_map(t_data *data)
 				while (x < data->width)
 				{
 					if(data->array[y][x].x_screen == i && data->array[y][x].y_screen == j)
-						img_pix_put(&data->img, i, j, RED_PIXEL);//data.array[j][i].color);
+						img_pix_put(&data->img, i, j, WHITE_PIXEL);//data.array[j][i].color);
 					x++;
 				}
 				y++;
@@ -95,30 +93,31 @@ int	main(int ac, char **ag)
 	data = fdf_parsing(fd, dimensions);
 	data.width = dimensions[0];
 	data.length = dimensions[1];
-	// display(data, dimensions);
+	// display(&data, dimensions);
+	// printf("red macro is %d\n", RED_PIXEL);
 
 	conversion_3D_to_2D(&data);
-	// display(data, dimensions);
+	// display(&data, dimensions);
 
 // /****printing the points****/
-// 	data.mlx_ptr = mlx_init();
-// 	if (data.mlx_ptr == NULL)
-// 		return (MLX_ERROR);
-// 	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "FDF");
-// 	if (data.win_ptr == NULL)
-// 	{
-// 		free(data.win_ptr);
-// 		return (MLX_ERROR);
-// 	}
-// 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-// 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
-// 	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
-// 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
+	data.mlx_ptr = mlx_init();
+	if (data.mlx_ptr == NULL)
+		return (MLX_ERROR);
+	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "FDF");
+	if (data.win_ptr == NULL)
+	{
+		free(data.win_ptr);
+		return (MLX_ERROR);
+	}
+	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
+	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 
-// 	mlx_loop(data.mlx_ptr);
-// //	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
-// 	mlx_destroy_display(data.mlx_ptr);
-// 	free(data.mlx_ptr);
+	mlx_loop(data.mlx_ptr);
+//	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
+	mlx_destroy_display(data.mlx_ptr);
+	free(data.mlx_ptr);
 	free_data(data, dimensions);
 	return (0);
 }

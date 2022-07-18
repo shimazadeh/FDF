@@ -116,7 +116,7 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 	return (res);
 }
 
-void	update_2D_coordinates(t_array array, t_matrix rotation)
+void	update_2D_coordinates(t_array *array, t_matrix rotation)
 {
 	t_matrix	temp;
 	t_matrix 	res;
@@ -130,15 +130,15 @@ void	update_2D_coordinates(t_array array, t_matrix rotation)
 	temp.data[1] = (double *)malloc(sizeof(double) * 1);
 	temp.data[2] = (double *)malloc(sizeof(double) * 1);
 
-	temp.data[0][0] = (double) array.x;
-	temp.data[1][0] = (double) array.y;
-	temp.data[2][0] = (double) array.z;
+	temp.data[0][0] = (double) array->x;
+	temp.data[1][0] = (double) array->y;
+	temp.data[2][0] = (double) array->z;
 
 	// printf("%d, %d, %d\n", array.x, array.y, array.z);
 	// printf("%f, %f, %f\n", temp.data[0][0], temp.data[1][0], temp.data[2][0]);
 	res.data = (double **) malloc(sizeof(double *) * rotation.rows);
 	i = 0;
-	printf("----------\n");
+	// printf("-----the raw value-----\n");
 	while (i < rotation.rows)
 	{
 		res.data[i] = (double *)malloc(sizeof(double *) * temp.columns);
@@ -146,19 +146,26 @@ void	update_2D_coordinates(t_array array, t_matrix rotation)
 		while(j < temp.columns)
 		{
 			res.data[i][j] = rotation.data[i][0]*temp.data[0][j] + rotation.data[i][1]*temp.data[1][j] + rotation.data[i][2]*temp.data[2][j];
-			printf("%f", res.data[i][j]);
+			// printf("%f", res.data[i][j]);
 			j++;
 			// printf("%f ", temp.data[0][j]);
 			// printf("%f ", temp.data[1][j]);
 			// printf("%f", temp.data[2][j]);
 		}
-		printf("\n");
+		// printf("\n");
 		i++;
 	}
-	printf("----------\n");
-	array.x_screen = res.data[0][0] / res.data[0][2];
-	array.y_screen = res.data[0][1] / res.data[0][2];
-	// printf("x_screen is %f, y screen is %f\n", array.x_screen, array.y_screen);
+	// printf("----final values------\n");
+	array->x_screen = (int) res.data[0][0] + WINDOW_WIDTH / 2;
+	array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 5;
+
+	// array->x_screen = ((int)(res.data[0][0] / (int)res.data[2][0]));
+	// array->y_screen = ((int)(res.data[0][0] / (int)res.data[2][0]));
+
+	// array->x_screen = (int) ((res.data[0][0] - res.data[2][0]) * cos(1.0472)) + 100;
+	// array->y_screen = (int) ((res.data[0][0] + res.data[2][0]) * sin(1.0472) - res.data[2][0]) + 100;
+	// array.z_screen = res.data[2][0];
+	// printf("%d\n%d\n", array->x_screen, array->y_screen);
 	//free(temp)
 	//free(res)
 	return ;
@@ -168,18 +175,16 @@ void	conversion_3D_to_2D(t_data *data)
 {
 	int 		i;
 	int 		j;
-	t_matrix	temp;
-	t_matrix	res;
 	t_matrix	x;
 	t_matrix	y;
 	t_matrix	z;
 	t_matrix	rotation;
 
 
-	x = initialize_rotation_x_axis(1.5708);
-	y = initialize_rotation_y_axis(1.5708);
-	z = initialize_rotation_z_axis(1.5708);
-	rotation = multiply_two_matrix(multiply_two_matrix(y,z), x);
+	x = initialize_rotation_x_axis(0.174533);
+	y = initialize_rotation_y_axis(-0.785398);
+	z = initialize_rotation_z_axis(0.523599);
+	rotation = multiply_two_matrix(multiply_two_matrix(z, y), x);
 	display_matrix(rotation);
 
 	j = 0;
@@ -188,7 +193,7 @@ void	conversion_3D_to_2D(t_data *data)
 		i = 0;
 		while(i < data->width)
 		{
-			update_2D_coordinates(data->array[j][i], rotation);
+			update_2D_coordinates(&data->array[j][i], rotation);
 			i++;
 		}
 		j++;
