@@ -12,9 +12,6 @@
 
 #include "fdf.h"
 
-
-///1, write a rotation matrix that takes theta and initializes the rotation matrix
-
 t_matrix	initialize_rotation_x_axis(double angle)
 {
 	t_matrix matrix;
@@ -181,9 +178,9 @@ void	conversion_3D_to_2D(t_data *data)
 	t_matrix	rotation;
 
 
-	x = initialize_rotation_x_axis(0.174533);
+	x = initialize_rotation_x_axis(2 * 0.174533);
 	y = initialize_rotation_y_axis(-0.785398);
-	z = initialize_rotation_z_axis(0.523599);
+	z = initialize_rotation_z_axis(2 * 0.523599);
 	rotation = multiply_two_matrix(multiply_two_matrix(z, y), x);
 	display_matrix(rotation);
 

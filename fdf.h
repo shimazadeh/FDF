@@ -26,8 +26,8 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1090
+# define WINDOW_WIDTH 1090
+# define WINDOW_HEIGHT 1000
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
@@ -85,6 +85,12 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 void		update_2D_coordinates(t_array *array, t_matrix rotation);
 void		conversion_3D_to_2D(t_data *data);
 void		display_matrix(t_matrix A);
+
+
+void	bresenham(t_array *start, t_array *end, t_img img);
+void	evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
+void	drawing_lines(t_data *data);
+
 
 char	**glob_free(char **dst);
 void	free_data(t_data data, int dimension[2]);

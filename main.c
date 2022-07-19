@@ -65,6 +65,7 @@ int	render_map(t_data *data)
 		}
 		++j;
 	}
+	drawing_lines(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0 , 0);
 	return (0);
 }
@@ -99,6 +100,7 @@ int	main(int ac, char **ag)
 	conversion_3D_to_2D(&data);
 	// display(&data, dimensions);
 
+	// drawing_lines(&data);
 // /****printing the points****/
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
