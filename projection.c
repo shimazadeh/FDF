@@ -12,7 +12,6 @@
 
 #include "fdf.h"
 
-
 void	update_2D_coordinates(t_array *array, double angle, t_data *data)
 {
 	array->x_screen = (int) ((array->x - array->y) * cos(angle)) + (WINDOW_WIDTH/ 2);

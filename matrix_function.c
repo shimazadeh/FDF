@@ -113,7 +113,7 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 	return (res);
 }
 
-void	rotation(t_array *array, t_matrix rotation)
+void	rotate(t_array *array, t_matrix rotation)
 {
 	t_matrix	temp;
 	t_matrix 	res;
@@ -153,12 +153,12 @@ void	rotation(t_array *array, t_matrix rotation)
 		i++;
 	}
 	// printf("----final values------\n");
-	// array->x_screen = (int) res.data[0][0] + WINDOW_WIDTH / 2;
-	// array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 5;
+	array->x_screen = (int) res.data[0][0] + WINDOW_WIDTH / 2;
+	array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 2;
 
 
-	array->x_screen = (int) ((array->x - array->y) * cos(0.523599)) + WINDOW_WIDTH / 2;
-	array->y_screen = (int) ((array->x + array->y) * sin(0.523599) - array->z) + WINDOW_HEIGHT / 2;
+	// array->x_screen = (int) ((array->x - array->y) * cos(0.523599)) + WINDOW_WIDTH / 2;
+	// array->y_screen = (int) ((array->x + array->y) * sin(0.523599) - array->z) + WINDOW_HEIGHT / 2;
 
 	// printf("%d\n%d\n", array->x_screen, array->y_screen);
 	//free(temp)
@@ -166,7 +166,7 @@ void	rotation(t_array *array, t_matrix rotation)
 	return ;
 }
 
-void	conversion_3D_to_2D(t_data *data)
+void	rotate_data(t_data *data)
 {
 	int 		i;
 	int 		j;
@@ -176,9 +176,9 @@ void	conversion_3D_to_2D(t_data *data)
 	t_matrix	rotation;
 
 
-	x = initialize_rotation_x_axis(2 * 0.174533);
-	y = initialize_rotation_y_axis(-0.785398);
-	z = initialize_rotation_z_axis(2 * 0.523599);
+	x = initialize_rotation_x_axis(data->roll);
+	y = initialize_rotation_y_axis(data->pitch);
+	z = initialize_rotation_z_axis(data->yaw);
 	rotation = multiply_two_matrix(multiply_two_matrix(z, y), x);
 	display_matrix(rotation);
 
@@ -188,7 +188,7 @@ void	conversion_3D_to_2D(t_data *data)
 		i = 0;
 		while(i < data->width)
 		{
-			rotation(&data->array[j][i], rotation);
+			rotate(&data->array[j][i], rotation);
 			i++;
 		}
 		j++;

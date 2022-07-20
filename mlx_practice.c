@@ -10,16 +10,34 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	if (keysym == XK_Up)
+	{
+		printf("rotate around x axis +angle\n");
+		data->roll = data->roll + 0.0872665;
+		data->pitch = data->pitch + 0.0872665;
+		data->yaw = data->yaw + 0.0872665;
+		render_map(data);
+	}
+	// 	// printf("rotate around x axis +angle\n");
+	// if (keysym == XK_Down)
+	// 	printf("rotate around x axis -angle\n");
+	// if (keysym == XK_Left)
+	// 	printf("rotate around y axis +angle\n");
+	// if (keysym == XK_Right)
+	// 	printf("rotate around y axis -angle\n");
+
 	// printf("keypress: %d\n", keysym);
 	return (0);
 }
 
 int	handle_mouse_release(int button, int x, int y, t_data *data)
 {
-	if (x == WINDOW_WIDTH && y == 0)
+	if (button == 1 && x < 0 && y < 0)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	printf("mouse release: x is %d, y is %d\n", x, y);
 	return (0);
 }
+
 void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;

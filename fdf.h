@@ -33,6 +33,12 @@
 # define GREEN_PIXEL 0xFF00
 # define WHITE_PIXEL 0xFFFFFF
 
+#define XK_Left                          0xff51  /* Move left, left arrow */
+#define XK_Up                            0xff52  /* Move up, up arrow */
+#define XK_Right                         0xff53  /* Move right, right arrow */
+#define XK_Down                          0xff54  /* Move down, down arrow */
+
+
 typedef struct	s_img {
 	void	*mlx_img;
 	char	*addr;
@@ -67,42 +73,46 @@ typedef struct s_data
 	t_img	img;
 	int		width;
 	int		length;
+	double	roll;
+	double	pitch;
+	double	yaw;
 } t_data;
 
-int		handle_no_event(void *data);
-int		handle_keyrelease(int keysym, t_data *data);
-int		handle_keypress(int keysym, t_data *data);
-int		handle_mouse_release(int button, int x, int y, t_data *data);
+int			handle_no_event(void *data);
+int			handle_keyrelease(int keysym, t_data *data);
+int			handle_keypress(int keysym, t_data *data);
+int			handle_mouse_release(int button, int x, int y, t_data *data);
 
 
 
-int		render(t_data *data);
-void	img_pix_put(t_img *img, int x, int y, int color);
+int			render(t_data *data);
+void		img_pix_put(t_img *img, int x, int y, int color);
 
-void	fdf_parsing(int fd, t_data *data);
-int		number_of_lines(int fd, t_data *data);
+void		fdf_parsing(int fd, t_data *data);
+int			number_of_lines(int fd, t_data *data);
+int			render_map(t_data *data);
 
-void	update_2D_coordinates(t_array *array, double angle, t_data *data);
-void	isometric_projection(t_data *data);
+void		update_2D_coordinates(t_array *array, double angle, t_data *data);
+void		isometric_projection(t_data *data);
 
-void	display_matrix(t_matrix A);
+void		display_matrix(t_matrix A);
 
 
-void	bresenham(t_array *start, t_array *end, t_img img);
-void	evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
-void	drawing_lines(t_data *data);
+void		bresenham(t_array *start, t_array *end, t_img img);
+void		evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
+void		drawing_lines(t_data *data);
+
+void		rotate_data(t_data *data);
+void		rotate(t_array *array, t_matrix rotation);
+t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
+t_matrix	initialize_rotation_z_axis(double angle);
+t_matrix	initialize_rotation_y_axis(double angle);
+t_matrix	initialize_rotation_x_axis(double angle);
+
 
 
 char	**glob_free(char **dst);
 void	free_data(t_data data);
-
-//maybe
-// void		rotation(t_array *array, t_matrix rotation);
-// void		conversion_3D_to_2D(t_data *data);
-// t_matrix	initialize_rotation_x_axis(double angle);
-// t_matrix	initialize_rotation_y_axis(double angle);
-// t_matrix	initialize_rotation_z_axis(double angle);
-// t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 
 #endif
 

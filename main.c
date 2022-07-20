@@ -93,10 +93,12 @@ int	main(int ac, char **ag)
 	fdf_parsing(fd, &data);
 	// display(&data);
 
-	// conversion_3D_to_2D(&data);
-	isometric_projection(&data);
+	// isometric_projection(&data);
 	// display(&data);
-
+	data.roll = 2 * 0.174533;
+	data.pitch = -0.785398;
+	data.yaw = 2 * 0.523599;
+	rotate_data(&data);
 /****printing the points****/
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
@@ -110,8 +112,10 @@ int	main(int ac, char **ag)
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
 	mlx_loop_hook(data.mlx_ptr, &render_map, &data);
+
+	mlx_mouse_hook(data.win_ptr,  &handle_mouse_release, &data);
+	// mlx_hook(data.win_ptr, ButtonRelease, ButtonReleaseMask, &handle_mouse_release, &data);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-	mlx_hook(data.win_ptr, ButtonRelease, ButtonReleaseMask, &handle_mouse_release, &data);
 
 	mlx_loop(data.mlx_ptr);
 //	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
