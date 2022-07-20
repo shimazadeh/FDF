@@ -15,7 +15,7 @@ NAME = FDF
 LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
-SRCS = fdf.h main.c different_method.c mlx_practice.c matrix_function.c parsing.c get_next_line.c get_next_line_utils.c
+SRCS = fdf.h main.c different_method.c mlx_practice.c projection.c parsing.c get_next_line.c get_next_line_utils.c
 
 
 OBJS = $(SRCS:%.c=%.o)

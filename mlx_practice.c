@@ -10,17 +10,16 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	printf("keypress: %d\n", keysym);
+	// printf("keypress: %d\n", keysym);
 	return (0);
 }
 
-int	handle_keyrelease(int keysym, t_data *data)
+int	handle_mouse_release(int button, int x, int y, t_data *data)
 {
-	(void) data;
-	printf("keyreleased: %d\n", keysym);
+	if (x == WINDOW_WIDTH && y == 0)
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	return (0);
 }
-
 void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;

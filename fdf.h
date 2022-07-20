@@ -26,7 +26,7 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1090
+# define WINDOW_WIDTH 1000
 # define WINDOW_HEIGHT 1000
 
 # define RED_PIXEL 0xFF0000
@@ -55,7 +55,7 @@ typedef struct s_array{
 
 	int 	x_screen;
 	int 	y_screen;
-	double 	z_screen;
+	int		max_color;
 
 }t_array;
 
@@ -72,19 +72,20 @@ typedef struct s_data
 int		handle_no_event(void *data);
 int		handle_keyrelease(int keysym, t_data *data);
 int		handle_keypress(int keysym, t_data *data);
+int		handle_mouse_release(int button, int x, int y, t_data *data);
+
+
+
 int		render(t_data *data);
 void	img_pix_put(t_img *img, int x, int y, int color);
 
-t_data	fdf_parsing(int fd, int dimensions[2]);
-int		number_of_lines(int fd, int dimension[2]);
+void	fdf_parsing(int fd, t_data *data);
+int		number_of_lines(int fd, t_data *data);
 
-t_matrix	initialize_rotation_x_axis(double angle);
-t_matrix	initialize_rotation_y_axis(double angle);
-t_matrix	initialize_rotation_z_axis(double angle);
-t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
-void		update_2D_coordinates(t_array *array, t_matrix rotation);
-void		conversion_3D_to_2D(t_data *data);
-void		display_matrix(t_matrix A);
+void	update_2D_coordinates(t_array *array, double angle, t_data *data);
+void	isometric_projection(t_data *data);
+
+void	display_matrix(t_matrix A);
 
 
 void	bresenham(t_array *start, t_array *end, t_img img);
@@ -93,8 +94,15 @@ void	drawing_lines(t_data *data);
 
 
 char	**glob_free(char **dst);
-void	free_data(t_data data, int dimension[2]);
+void	free_data(t_data data);
 
+//maybe
+// void		rotation(t_array *array, t_matrix rotation);
+// void		conversion_3D_to_2D(t_data *data);
+// t_matrix	initialize_rotation_x_axis(double angle);
+// t_matrix	initialize_rotation_y_axis(double angle);
+// t_matrix	initialize_rotation_z_axis(double angle);
+// t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 
 #endif
 

@@ -16,10 +16,12 @@ void	bresenham(t_array *start, t_array *end,t_img img)
 {
 	double step_x;
 	double step_y;
+	double step_color;
 	double x_diff;
 	double y_diff;
 	double i;
 	double j;
+	double color;
 	double max;
 
 
@@ -32,15 +34,20 @@ void	bresenham(t_array *start, t_array *end,t_img img)
 		max = x_diff;
 	step_x = x_diff / max;
 	step_y = y_diff / max;
+	step_color = (end->color - start->color)/ max;
 
+	// printf("x_diff %f, y_diff %f, max if %f, step_x %f, step_y %f\n", x_diff, y_diff, max, step_x, step_y);
 	i = start->x_screen;
 	j = start->y_screen;
+	color = start->color;
+	// printf("start color %d, end color %d\n", start->color, end->color);
 	while(i < end->x_screen - 1)
 	{
 		i =  i + step_x;
 		j = j + step_y;
-		img_pix_put(&img, i, j, RED_PIXEL);
-		// printf("the next point to print (%f, %f)\n", i, j);
+		color = color + step_color;
+		img_pix_put(&img, i, j, color);
+		// printf("the next color to print %f)\n", color);
 	}
 	return ;
 }
@@ -48,7 +55,7 @@ void	bresenham(t_array *start, t_array *end,t_img img)
 
 void	evaluate_conditions_execute(t_array *start, t_array *end, t_img	img)
 {
-	if (end->x_screen < start->x_screen && end->y_screen < start->y_screen)
+	if (end->x_screen < start->x_screen)// && end->y_screen < start->y_screen)
 		bresenham(end, start, img);
 	else
 		bresenham(start, end, img);
@@ -71,15 +78,20 @@ void	drawing_lines(t_data *data)
 			// printf("the x is %d\n", x);
 			if (y != data->length - 1)
 			{
-				// printf("the start point: %d, %d\n", data->array[y][x].x, data->array[y][x].y);
-				// printf("the end point: %d, %d\n", data->array[y + 1][x].x, data->array[y + 1][x].y);
+				// printf("below the point\n");
+				// printf("the start point: %d, %d\n", data->array[y][x].x_screen, data->array[y][x].y_screen);
+				// printf("the end point: %d, %d\n", data->array[y + 1][x].x_screen, data->array[y + 1][x].y_screen);
 				evaluate_conditions_execute(&data->array[y][x], &data->array[y + 1][x], data->img);
+				// printf("-----------------------\n");
+
 			}
 			if (x != data->width - 1)
 			{
-				// printf("the start point: %d, %d\n", data->array[y][x].x, data->array[y][x].y);
-				// printf("the end point: %d, %d\n", data->array[y][x + 1].x, data->array[y][x + 1].y);
+				// printf("to the right of the point\n");
+				// printf("the start point: %d, %d\n", data->array[y][x].x_screen, data->array[y][x].y_screen);
+				// printf("the end point: %d, %d\n", data->array[y][x + 1].x_screen, data->array[y][x + 1].y_screen);
 				evaluate_conditions_execute(&data->array[y][x], &data->array[y][x + 1], data->img);
+				// printf("-----------------------\n");
 			}
 			// printf("--------------\n");
 			x++;

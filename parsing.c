@@ -12,12 +12,12 @@
 
 #include "fdf.h"
 
-void	free_data(t_data data, int dimensions[2])
+void	free_data(t_data data)
 {
 	int	i;
 //	int	j;
 
-	i = dimensions[1];
+	i = data.length;
 	while (i > 0)
 	{
 		i--;
@@ -49,9 +49,10 @@ char	**glob_free(char **dst)
 	return (NULL);
 }
 
-int	number_of_lines(int fd, int dimension[2])
+int	number_of_lines(int fd, t_data *data)
 {
 	char	*buffer;
+	int		dimension[2];
 
 	dimension[0] = 0;
 	dimension[1] = 0;
@@ -71,39 +72,45 @@ int	number_of_lines(int fd, int dimension[2])
 		buffer = get_next_line(fd);
 	}
 	free(buffer);
+	data->width = dimension[0];
+	data->length = dimension[1];
 	close(fd);
 	return (0);
 }
 
-t_data	fdf_parsing(int fd, int dimensions[2])
+void	fdf_parsing(int fd, t_data *data)
 {
 	char	*buffer;
 	char	**tab;
-	t_data	data;
 	int		y;
 	int		x;
 	char	**color;
 
 	if (fd < 0)
-		return (data);
+		return ;
 	y = 0;
 	buffer = get_next_line(fd);
-	data.array = (t_array **) malloc((sizeof(t_array *)) * (dimensions[1]));
+	data->array = (t_array **) malloc((sizeof(t_array *)) * (data->length));
 	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
 	{
 		x = 0;
 		tab = ft_split(buffer, ' ');
-		data.array[y] = (t_array *)malloc(sizeof(t_array) * (dimensions[0]));
-		while (tab[x] && x < dimensions[0])
+		data->array[y] = (t_array *)malloc(sizeof(t_array) * (data->width));
+		while (tab[x] && x < data->width)
 		{
-			data.array[y][x].x = x * 20; //113 pixel is 5cm
-			data.array[y][x].y = y * 20;
+			data->array[y][x].x = x * 30; //113 pixel is 5cm
+			data->array[y][x].y = y * 30;
 			color = ft_split(tab[x], ',');
-			data.array[y][x].z = ft_atoi(color[0]) * 20;
-			// if(!color[1])
-				data.array[y][x].color = WHITE_PIXEL; //default is white
-			// else
-				// data.array[y][x].color = ft_atoi(color[1]);
+			data->array[y][x].z = ft_atoi(color[0]) * 5;
+			if(!color[1])
+			{
+				if (data->array[y][x].z == 0)
+					data->array[y][x].color = WHITE_PIXEL; //default is white
+				else
+					data->array[y][x].color = RED_PIXEL;
+			}
+			else
+				data->array[y][x].color = ft_atoi(color[1]);
 			glob_free(color);
 			x++;
 		}
@@ -114,6 +121,6 @@ t_data	fdf_parsing(int fd, int dimensions[2])
 	}
 	free(buffer);
 	close(fd);
-	return (data);
+	return ;
 }
 
