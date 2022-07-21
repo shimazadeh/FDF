@@ -46,9 +46,20 @@ int	close_window(t_data *data)
 
 int	handle_mouse_release(int button, int x, int y, t_data *data)
 {
-	if (button == 1 && x < 0 && y < 0)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	printf("mouse release: x is %d, y is %d\n", x, y);
+	if (button == 4)
+	{
+		draw_background(data);
+		zoom(data, 1.5);
+		render_map(data);
+		printf("zoom in\n");
+	}
+	if (button == 5)
+	{
+		draw_background(data);
+		zoom(data, 0.5);
+		render_map(data);
+		printf("zoom out\n");
+	}
 	return (0);
 }
 

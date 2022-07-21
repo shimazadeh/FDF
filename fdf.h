@@ -72,8 +72,11 @@ typedef struct s_data
 	void	*win_ptr;
 	t_array	**array;//a table with the size
 	t_img	img;
+
 	int		width;
 	int		length;
+
+	int		zoom;
 	double	roll;
 	double	pitch;
 	double	yaw;
@@ -109,6 +112,10 @@ int			draw_background(t_data *data);
 
 void		rotate_data(t_data *data);
 void		rotate(t_array *array, t_matrix rotation);
+
+
+void		zoom(t_data *data, int zoom);
+
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 t_matrix	initialize_rotation_z_axis(double angle);
 t_matrix	initialize_rotation_y_axis(double angle);

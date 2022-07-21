@@ -196,6 +196,27 @@ void	rotate_data(t_data *data)
 	return ;
 }
 
+
+void	zoom(t_data *data, int zoom)
+{
+	int 		i;
+	int 		j;
+
+	j = 0;
+	while(j < data->length)
+	{
+		i = 0;
+		while(i < data->width)
+		{
+			data->array[j][i].x_screen = data->array[j][i].x_screen * zoom;
+			data->array[j][i].y_screen = data->array[j][i].y_screen * zoom;
+			i++;
+		}
+		j++;
+	}
+	return ;
+}
+
 void	display_matrix(t_matrix A)
 {
 	int i;
