@@ -32,6 +32,7 @@
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
 # define WHITE_PIXEL 0xFFFFFF
+# define BLUE_PIXEL 0x0000FF
 
 #define XK_Left                          0xff51  /* Move left, left arrow */
 #define XK_Up                            0xff52  /* Move up, up arrow */
@@ -82,6 +83,8 @@ int			handle_no_event(void *data);
 int			handle_keyrelease(int keysym, t_data *data);
 int			handle_keypress(int keysym, t_data *data);
 int			handle_mouse_release(int button, int x, int y, t_data *data);
+int			close_window(t_data *data);
+int			handle_no_event(void *data);
 
 
 
@@ -91,6 +94,7 @@ void		img_pix_put(t_img *img, int x, int y, int color);
 void		fdf_parsing(int fd, t_data *data);
 int			number_of_lines(int fd, t_data *data);
 int			render_map(t_data *data);
+int			encode_rgb(u_int8_t red, u_int8_t green, u_int8_t blue);
 
 void		update_2D_coordinates(t_array *array, double angle, t_data *data);
 void		isometric_projection(t_data *data);
@@ -101,6 +105,7 @@ void		display_matrix(t_matrix A);
 void		bresenham(t_array *start, t_array *end, t_img img);
 void		evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
 void		drawing_lines(t_data *data);
+int			draw_background(t_data *data);
 
 void		rotate_data(t_data *data);
 void		rotate(t_array *array, t_matrix rotation);

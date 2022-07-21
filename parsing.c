@@ -61,11 +61,11 @@ int	number_of_lines(int fd, t_data *data)
 	buffer = get_next_line(fd);
 	if (!buffer)
 		return (ft_printf("empty file\n"), -1);
-	dimension[0] = ft_size_word(buffer, ' ') - 1;
+	dimension[0] = ft_size_word(buffer, ' ');
 	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
 	{
-		if (dimension[0] != ft_size_word(buffer, ' ') - 1)
-			return (ft_printf("inconsistent line length\n") , -1);
+		// if (dimension[0] != ft_size_word(buffer, ' '))
+			// return (ft_printf("inconsistent line length\n") , -1);
 		dimension[1]++;
 //		ft_printf("the line is: %s\n", buffer);
 		free(buffer);
@@ -101,13 +101,15 @@ void	fdf_parsing(int fd, t_data *data)
 			data->array[y][x].x = x * 30; //113 pixel is 5cm
 			data->array[y][x].y = y * 30;
 			color = ft_split(tab[x], ',');
-			data->array[y][x].z = ft_atoi(color[0]) * 5;
+			data->array[y][x].z = ft_atoi(color[0]) * 10;
+			// printf("color is %s\n", color[1]);
 			if(!color[1])
 			{
 				if (data->array[y][x].z == 0)
-					data->array[y][x].color = WHITE_PIXEL; //default is white
+					data->array[y][x].color = encode_rgb(255, 255, 255); //default is white
 				else
-					data->array[y][x].color = RED_PIXEL;
+					// data->array[y][x].color = encode_rgb(255, 0, 0);
+					data->array[y][x].color = encode_rgb(255, 255 / (ft_atoi(color[0])), 0);
 			}
 			else
 				data->array[y][x].color = ft_atoi(color[1]);
@@ -124,3 +126,7 @@ void	fdf_parsing(int fd, t_data *data)
 	return ;
 }
 
+int	encode_rgb(u_int8_t red, u_int8_t green, u_int8_t blue)
+{
+	return (red << 16 | green << 8 | blue);
+}

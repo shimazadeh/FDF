@@ -154,7 +154,7 @@ void	rotate(t_array *array, t_matrix rotation)
 	}
 	// printf("----final values------\n");
 	array->x_screen = (int) res.data[0][0] + WINDOW_WIDTH / 2;
-	array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 2;
+	array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 4;
 
 
 	// array->x_screen = (int) ((array->x - array->y) * cos(0.523599)) + WINDOW_WIDTH / 2;
@@ -180,7 +180,7 @@ void	rotate_data(t_data *data)
 	y = initialize_rotation_y_axis(data->pitch);
 	z = initialize_rotation_z_axis(data->yaw);
 	rotation = multiply_two_matrix(multiply_two_matrix(z, y), x);
-	display_matrix(rotation);
+	// display_matrix(rotation);
 
 	j = 0;
 	while(j < data->length)
