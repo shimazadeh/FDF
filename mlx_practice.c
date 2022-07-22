@@ -4,31 +4,44 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	if (keysym == XK_Up)
+	if (keysym == XK_a)
 	{
 		data->roll = data->roll + 0.05;
-		data->yaw = data->yaw + 0.05;
 		draw_background(data);
 		rotate_data(data);
 		render_map(data);
 	}
-	if (keysym == XK_Down)
+	if (keysym == XK_d)
 	{
 		data->roll = data->roll - 0.05;
 		draw_background(data);
 		rotate_data(data);
 		render_map(data);
 	}
-	if (keysym == XK_Right)
+	if (keysym == XK_w)
 	{
 		data->pitch = data->pitch + 0.05;
 		draw_background(data);
 		rotate_data(data);
 		render_map(data);
 	}
-	if (keysym == XK_Left)
+	if (keysym == XK_x)
 	{
 		data->pitch = data->pitch - 0.05;
+		draw_background(data);
+		rotate_data(data);
+		render_map(data);
+	}
+	if (keysym == XK_e)
+	{
+		data->yaw = data->yaw + 0.05;
+		draw_background(data);
+		rotate_data(data);
+		render_map(data);
+	}
+	if (keysym == XK_z)
+	{
+		data->yaw = data->yaw - 0.05;
 		draw_background(data);
 		rotate_data(data);
 		render_map(data);
@@ -49,16 +62,20 @@ int	handle_mouse_release(int button, int x, int y, t_data *data)
 	if (button == 4)
 	{
 		draw_background(data);
-		zoom(data, 1.5);
+		// translate_data(data,-data->scale * (data->width)/2, -data->scale * (data->length)/2);
+		zoom(data, 2);
+		rotate_data(data);
+		// translate_data(data, +data->scale * (data->width) / 2 , +data->scale * (data->length) / 2);
 		render_map(data);
-		printf("zoom in\n");
 	}
 	if (button == 5)
 	{
 		draw_background(data);
+		// translate_data(data, -data->scale * (data->width) / 2 , -data->scale * (data->length) / 2);
 		zoom(data, 0.5);
+		rotate_data(data);
+		// translate_data(data, +data->scale * (data->width) / 2 , +data->scale * (data->length) / 2);
 		render_map(data);
-		printf("zoom out\n");
 	}
 	return (0);
 }

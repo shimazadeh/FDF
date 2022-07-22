@@ -76,11 +76,14 @@ typedef struct s_data
 	int		width;
 	int		length;
 
+	int		scale;
 	int		zoom;
 	double	roll;
 	double	pitch;
 	double	yaw;
 } t_data;
+
+int	ft_atoi_base(char *str, char *base);
 
 int			handle_no_event(void *data);
 int			handle_keyrelease(int keysym, t_data *data);
@@ -100,7 +103,7 @@ int			render_map(t_data *data);
 int			encode_rgb(u_int8_t red, u_int8_t green, u_int8_t blue);
 
 void		update_2D_coordinates(t_array *array, double angle, t_data *data);
-void		isometric_projection(t_data *data);
+void		isometric_projection(t_data *data, double angle);
 
 void		display_matrix(t_matrix A);
 
@@ -114,17 +117,21 @@ void		rotate_data(t_data *data);
 void		rotate(t_array *array, t_matrix rotation);
 
 
-void		zoom(t_data *data, int zoom);
+void		zoom(t_data *data, double zoom);
 
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 t_matrix	initialize_rotation_z_axis(double angle);
 t_matrix	initialize_rotation_y_axis(double angle);
 t_matrix	initialize_rotation_x_axis(double angle);
 
+t_matrix	initialize_translation(double tx, double ty);
+void		translate(t_array *array, t_matrix translation);
+void		translate_data(t_data *data, int tx, int ty);
 
 
 char	**glob_free(char **dst);
 void	free_data(t_data data);
+void	free_matrix(t_matrix A);
 
 #endif
 

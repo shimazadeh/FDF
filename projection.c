@@ -19,7 +19,7 @@ void	update_2D_coordinates(t_array *array, double angle, t_data *data)
 	return ;
 }
 
-void	isometric_projection(t_data *data)
+void	isometric_projection(t_data *data, double angle)
 {
 	int	i;
 	int	j;
@@ -30,7 +30,7 @@ void	isometric_projection(t_data *data)
 		i = 0;
 		while(i < data->width)
 		{
-			update_2D_coordinates(&data->array[j][i], 0.523599, data);
+			update_2D_coordinates(&data->array[j][i], angle, data);
 			i++;
 		}
 		j++;

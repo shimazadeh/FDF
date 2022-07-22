@@ -61,7 +61,7 @@ int	number_of_lines(int fd, t_data *data)
 	buffer = get_next_line(fd);
 	if (!buffer)
 		return (ft_printf("empty file\n"), -1);
-	dimension[0] = ft_size_word(buffer, ' ');
+	dimension[0] = ft_size_word(buffer, ' ') - 1;
 	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
 	{
 		// if (dimension[0] != ft_size_word(buffer, ' '))
@@ -90,6 +90,7 @@ void	fdf_parsing(int fd, t_data *data)
 		return ;
 	y = 0;
 	buffer = get_next_line(fd);
+	data->scale = sqrt((WINDOW_HEIGHT * WINDOW_WIDTH) / (data->width * data->length)) - 1;
 	data->array = (t_array **) malloc((sizeof(t_array *)) * (data->length));
 	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
 	{
@@ -98,10 +99,10 @@ void	fdf_parsing(int fd, t_data *data)
 		data->array[y] = (t_array *)malloc(sizeof(t_array) * (data->width));
 		while (tab[x] && x < data->width)
 		{
-			data->array[y][x].x = x * 30; //113 pixel is 5cm
-			data->array[y][x].y = y * 30;
+			data->array[y][x].x = x * data->scale - (data->scale * data->width / 2); //113 pixel is 5cm
+			data->array[y][x].y = y * data->scale - (data->scale * data->length / 2);
 			color = ft_split(tab[x], ',');
-			data->array[y][x].z = ft_atoi(color[0]) * 10;
+			data->array[y][x].z = ft_atoi(color[0]) * 2;
 			// printf("color is %s\n", color[1]);
 			if(!color[1])
 			{
@@ -112,7 +113,8 @@ void	fdf_parsing(int fd, t_data *data)
 					data->array[y][x].color = encode_rgb(255, 255 / (ft_atoi(color[0])), 0);
 			}
 			else
-				data->array[y][x].color = ft_atoi(color[1]);
+				data->array[y][x].color = ft_atoi_base(color[1], "0123456789ABCDEF");
+			// printf("the color for z %d, is %d\n",data->array[y][x].z, data->array[y][x].color );
 			glob_free(color);
 			x++;
 		}
