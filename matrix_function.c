@@ -213,6 +213,26 @@ void	zoom(t_data *data, double zoom)
 	return ;
 }
 
+
+void	scale_z(t_data *data, double scale)
+{
+	int 		i;
+	int 		j;
+
+	j = 0;
+	while(j < data->length)
+	{
+		i = 0;
+		while(i < data->width)
+		{
+			data->array[j][i].z = data->array[j][i].z * scale;
+			i++;
+		}
+		j++;
+	}
+	return ;
+}
+
 void	display_matrix(t_matrix A)
 {
 	int i;

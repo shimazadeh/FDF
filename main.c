@@ -108,13 +108,14 @@ int	main(int ac, char **ag)
 	// display(&data);
 	// printf("the width is %d, the length is %d\n", data.width, data.length);
 
-	// isometric_projection(&data, 0.523599);
 	// display(&data);
-	data.roll = 2 * 0.174533;
-	data.pitch = -0.785398;
-	data.yaw = 2 *0.523599;
-	// translate_data(&data,-30 * (data.width)/2, -30 * (data.length)/2);
+	data.roll = 0.523599;
+	data.pitch = -0.523599;
+	data.yaw = 0.523599;
+	data.zoom = 0;
 	rotate_data(&data);
+	// isometric_projection(&data, 0.523599);
+
 	// display(&data);
 
 /****printing the points****/
@@ -142,6 +143,7 @@ int	main(int ac, char **ag)
 //	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);
+	printf("the final angles alpha: %f, beta, %f, gmma %f\n", data.roll, data.pitch, data.yaw);
 	free_data(data);
 	return (0);
 }

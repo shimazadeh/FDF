@@ -55,9 +55,9 @@ typedef struct s_matrix{
 }t_matrix;
 
 typedef struct s_array{
-	int 	x;
-	int 	y;
-	int 	z;
+	double 	x;
+	double 	y;
+	double 	z;
 	int		color;
 
 	int 	x_screen;
@@ -84,6 +84,7 @@ typedef struct s_data
 } t_data;
 
 int	ft_atoi_base(char *str, char *base);
+void	put_to_upper(char *str);
 
 int			handle_no_event(void *data);
 int			handle_keyrelease(int keysym, t_data *data);
@@ -115,9 +116,11 @@ int			draw_background(t_data *data);
 
 void		rotate_data(t_data *data);
 void		rotate(t_array *array, t_matrix rotation);
+void	perspective(t_array *array, double angle, t_data *data);
 
 
 void		zoom(t_data *data, double zoom);
+void		scale_z(t_data *data, double scale);
 
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 t_matrix	initialize_rotation_z_axis(double angle);

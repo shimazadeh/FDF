@@ -4,6 +4,20 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	if (keysym == XK_Up)
+	{
+		draw_background(data);
+		scale_z(data, 2);
+		rotate_data(data);
+		render_map(data);
+	}
+	if (keysym == XK_Down)
+	{
+		draw_background(data);
+		scale_z(data,0.80);
+		rotate_data(data);
+		render_map(data);
+	}
 	if (keysym == XK_a)
 	{
 		data->roll = data->roll + 0.05;
@@ -63,19 +77,21 @@ int	handle_mouse_release(int button, int x, int y, t_data *data)
 	{
 		draw_background(data);
 		// translate_data(data,-data->scale * (data->width)/2, -data->scale * (data->length)/2);
-		zoom(data, 2);
+		zoom(data, 1.1);
 		rotate_data(data);
 		// translate_data(data, +data->scale * (data->width) / 2 , +data->scale * (data->length) / 2);
 		render_map(data);
+		data->zoom++;
 	}
 	if (button == 5)
 	{
 		draw_background(data);
 		// translate_data(data, -data->scale * (data->width) / 2 , -data->scale * (data->length) / 2);
-		zoom(data, 0.5);
+		zoom(data, 0.9);
 		rotate_data(data);
 		// translate_data(data, +data->scale * (data->width) / 2 , +data->scale * (data->length) / 2);
 		render_map(data);
+		data->zoom--;
 	}
 	return (0);
 }
