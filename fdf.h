@@ -26,8 +26,8 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
@@ -109,8 +109,8 @@ void		isometric_projection(t_data *data, double angle);
 void		img_pix_put(t_img *img, int x, int y, int color);
 int			draw_background(t_data *data);
 int			draw(t_data *data);
-void		draw_line(t_array *start, t_array *end, t_img img);
-void		evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
+void		execute(t_array *start, t_array *end, t_img img);
+void		drawline(t_array *start, t_array *end, t_img img);
 void		re_draw(t_data *data, int keysym);
 
 void		rotate(t_data *data);
@@ -134,7 +134,7 @@ t_matrix	initialize_rotation(double roll, double pitch, double yaw);
 
 t_matrix	initialize_translation(double tx, double ty);
 void		translate(t_array *array, t_matrix translation);
-void		translate_data(t_data *data, int tx, int ty);
+void	translate_data(t_data *data, int translate, int flag);
 void		display_matrix(t_matrix A);
 
 

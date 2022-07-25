@@ -14,22 +14,19 @@
 
 t_matrix	initialize_rotation_x_axis(double angle)
 {
-	t_matrix matrix;
+	t_matrix	matrix;
 
 	matrix.rows = 3;
 	matrix.columns = 3;
 	matrix.data = (double **)malloc(sizeof(double *) * 3);
-
 	matrix.data[0] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[0][0] = 1;
 	matrix.data[0][1] = 0;
 	matrix.data[0][2] = 0;
-
 	matrix.data[1] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[1][0] = 0;
 	matrix.data[1][1] = cos(angle);
 	matrix.data[1][2] = -sin(angle);
-
 	matrix.data[2] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[2][0] = 0;
 	matrix.data[2][1] = sin(angle);
@@ -39,22 +36,19 @@ t_matrix	initialize_rotation_x_axis(double angle)
 
 t_matrix	initialize_rotation_y_axis(double angle)
 {
-	t_matrix matrix;
+	t_matrix	matrix;
 
 	matrix.rows = 3;
 	matrix.columns = 3;
 	matrix.data = (double **)malloc(sizeof(double *) * 3);
-
 	matrix.data[0] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[0][0] = cos(angle);
 	matrix.data[0][1] = 0;
 	matrix.data[0][2] = sin(angle);
-
 	matrix.data[1] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[1][0] = 0;
 	matrix.data[1][1] = 1;
 	matrix.data[1][2] = 0;
-
 	matrix.data[2] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[2][0] = -sin(angle);
 	matrix.data[2][1] = 0;
@@ -64,22 +58,19 @@ t_matrix	initialize_rotation_y_axis(double angle)
 
 t_matrix	initialize_rotation_z_axis(double angle)
 {
-	t_matrix matrix;
+	t_matrix	matrix;
 
 	matrix.rows = 3;
 	matrix.columns = 3;
 	matrix.data = (double **)malloc(sizeof(double *) * 3);
-
 	matrix.data[0] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[0][0] = cos(angle);
 	matrix.data[0][1] = -sin(angle);
 	matrix.data[0][2] = 0;
-
 	matrix.data[1] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[1][0] = sin(angle);
 	matrix.data[1][1] = cos(angle);
 	matrix.data[1][2] = 0;
-
 	matrix.data[2] = (double *)malloc(sizeof(double) * 3);
 	matrix.data[2][0] = 0;
 	matrix.data[2][1] = 0;
@@ -89,13 +80,11 @@ t_matrix	initialize_rotation_z_axis(double angle)
 
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 {
-	t_matrix 	res;
+	t_matrix	res;
 	int			i;
 	int			j;
 
 	i = 0;
-	// if (A.columns != B.rows)
-	// 	return ;
 	res.rows = A.rows;
 	res.columns = B.columns;
 	res.data = (double **) malloc(sizeof(double *) * A.rows);
@@ -103,15 +92,15 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 	{
 		res.data[i] = (double *)malloc(sizeof(double *) * B.columns);
 		j = 0;
-		while(j < B.columns)
+		while (j < B.columns)
 		{
-			res.data[i][j] = A.data[i][0]*B.data[0][j] + A.data[i][1]*B.data[1][j] + A.data[i][2]*B.data[2][j];
+			res.data[i][j] = A.data[i][0] * B.data[0][j]
+				+ A.data[i][1] * B.data[1][j]
+				+ A.data[i][2] * B.data[2][j];
 			j++;
 		}
 		i++;
 	}
-	// free_matrix(A);
-	// free_matrix(B);
 	return (res);
 }
 

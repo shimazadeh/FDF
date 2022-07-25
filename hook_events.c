@@ -1,27 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook_events.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shabibol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/25 18:39:30 by shabibol          #+#    #+#             */
+/*   Updated: 2022/07/25 18:39:35 by shabibol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	else if (keysym == XK_Up || keysym == XK_Down || keysym == XK_a || keysym == XK_d || keysym == XK_w || keysym == XK_x || keysym == XK_e || keysym == XK_z)
+	else if (keysym == XK_i || keysym == XK_m || keysym == XK_j
+		|| keysym == XK_l || keysym == XK_Up || keysym == XK_Down
+		|| keysym == XK_a || keysym == XK_d || keysym == XK_w
+		|| keysym == XK_x || keysym == XK_e || keysym == XK_z)
 	{
 		if (keysym == XK_Up)
 			data->z_scale = 2;
-		else if (keysym == XK_Down)
+		if (keysym == XK_Down)
 			data->z_scale = 0.80;
-		else if (keysym == XK_a)
+		if (keysym == XK_a)
 			data->roll = data->roll + 0.05;
-		else if (keysym == XK_d)
+		if (keysym == XK_d)
 			data->roll = data->roll - 0.05;
-		else if (keysym == XK_w)
+		if (keysym == XK_w)
 			data->pitch = data->pitch + 0.05;
-		else if (keysym == XK_x)
+		if (keysym == XK_x)
 			data->pitch = data->pitch - 0.05;
-		else if (keysym == XK_e)
+		if (keysym == XK_e)
 			data->yaw = data->yaw + 0.05;
-		else if (keysym == XK_z)
+		if (keysym == XK_z)
 			data->yaw = data->yaw - 0.05;
+		if (keysym == XK_l)
+			translate_data(data, 5, 1);
+		if (keysym == XK_j)
+			translate_data(data, -5, 1);
+		if (keysym == XK_i)
+			translate_data(data, -5, 0);
+		if (keysym == XK_m)
+			translate_data(data, 5, 0);
 		re_draw(data, keysym);
 	}
 	return (0);
@@ -37,7 +60,6 @@ int	handle_mouse_release(int button, int x, int y, t_data *data)
 {
 	(void)x;
 	(void)y;
-
 	if (button == 4)
 	{
 		data->zoom = 1.1;

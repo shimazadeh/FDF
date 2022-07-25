@@ -26,31 +26,32 @@ void	rotate_point(t_array *array, t_matrix rotation)
 	while (i < rotation.rows)
 	{
 		j = 0;
-		while(j < 1)
+		while (j < 1)
 		{
-			res[i][j] = rotation.data[i][0]*temp[0][j] + rotation.data[i][1]*temp[1][j] + rotation.data[i][2]*temp[2][j];
+			res[i][j] = rotation.data[i][0] * temp[0][j]
+				+ rotation.data[i][1] * temp[1][j]
+				+ rotation.data[i][2] * temp[2][j];
 			j++;
 		}
 		i++;
 	}
-	array->x_screen = (int) res[0][0] + WINDOW_WIDTH / 2;
-	array->y_screen = (int) res[1][0] + WINDOW_HEIGHT / 2;
+	array->x_screen = (int) res[0][0] + WIN_WIDTH / 2;
+	array->y_screen = (int) res[1][0] + WIN_HEIGHT / 2;
 	return ;
 }
 
 void	rotate(t_data *data)
 {
-	int 		i;
-	int 		j;
+	int			i;
+	int			j;
 	t_matrix	rotation;
 
 	rotation = initialize_rotation(data->roll, data->pitch, data->yaw);
-
 	j = 0;
-	while(j < data->length)
+	while (j < data->length)
 	{
 		i = 0;
-		while(i < data->width)
+		while (i < data->width)
 		{
 			rotate_point(&data->array[j][i], rotation);
 			i++;
@@ -63,14 +64,14 @@ void	rotate(t_data *data)
 
 void	zoom(t_data *data, double zoom)
 {
-	int 		i;
-	int 		j;
+	int			i;
+	int			j;
 
 	j = 0;
-	while(j < data->length)
+	while (j < data->length)
 	{
 		i = 0;
-		while(i < data->width)
+		while (i < data->width)
 		{
 			data->array[j][i].x = data->array[j][i].x * zoom;
 			data->array[j][i].y = data->array[j][i].y * zoom;
@@ -84,14 +85,14 @@ void	zoom(t_data *data, double zoom)
 
 void	scale_z(t_data *data, double scale)
 {
-	int 		i;
-	int 		j;
+	int			i;
+	int			j;
 
 	j = 0;
-	while(j < data->length)
+	while (j < data->length)
 	{
 		i = 0;
-		while(i < data->width)
+		while (i < data->width)
 		{
 			data->array[j][i].z = data->array[j][i].z * scale;
 			i++;
@@ -101,3 +102,30 @@ void	scale_z(t_data *data, double scale)
 	return ;
 }
 
+void	translate_data(t_data *data, int translate, int flag)
+{
+	int			i;
+	int			j;
+
+	j = 0;
+	while (j < data->length)
+	{
+		i = 0;
+		while (i < data->width)
+		{
+			if (flag == 0)
+			{
+				data->array[j][i].x = data->array[j][i].x + translate;
+				data->array[j][i].y = data->array[j][i].y + translate;
+			}
+			if (flag == 1)
+			{
+				data->array[j][i].y = data->array[j][i].y + translate;
+				data->array[j][i].z = data->array[j][i].z + translate;
+			}
+			i++;
+		}
+		j++;
+	}
+	return ;
+}

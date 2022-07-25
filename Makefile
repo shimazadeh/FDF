@@ -15,7 +15,7 @@ NAME = FDF
 LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
-SRCS = fdf.h main.c draw.c parsing.c rotation_partI.c rotation_partII.c hook_events.c projection.c free.c ft_atoi_base.c get_next_line.c get_next_line_utils.c
+SRCS = fdf.h main.c draw.c parsing.c rotation_partI.c rotation_partII.c hook_events.c free.c ft_atoi_base.c get_next_line.c get_next_line_utils.c
 
 
 OBJS = $(SRCS:%.c=%.o)

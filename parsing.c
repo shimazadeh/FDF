@@ -19,7 +19,7 @@ int	encode_rgb(u_int8_t red, u_int8_t green, u_int8_t blue)
 
 void	put_to_upper(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -44,7 +44,7 @@ int	number_of_lines(int fd, t_data *data)
 	if (!buffer)
 		return (ft_printf("empty file\n"), -1);
 	dimension[0] = ft_size_word(buffer, ' ') - 1;
-	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
+	while (ft_strlen(buffer) > 0)
 	{
 		dimension[1]++;
 		free(buffer);
@@ -59,8 +59,8 @@ int	number_of_lines(int fd, t_data *data)
 
 void	set_map_values(t_data *data, t_array *array, char **tab, int y)
 {
-	int x;
-	char **content;
+	int		x;
+	char	**content;
 
 	x = 0;
 	while (tab[x] && x < data->width)
@@ -69,7 +69,7 @@ void	set_map_values(t_data *data, t_array *array, char **tab, int y)
 		array[x].y = y * data->scale - (data->scale * data->length / 2);
 		content = ft_split(tab[x], ',');
 		array[x].z = ft_atoi(content[0]) * data->scale;
-		if(!content[1])
+		if (!content[1])
 		{
 			if (array[x].z == 0)
 				array[x].color = encode_rgb(255, 255, 255);
@@ -101,10 +101,10 @@ void	create_data_structure(int fd, t_data *data)
 	data->yaw = 0.523599;
 	data->z_scale = 1;
 	data->zoom = 1;
-	data->scale = sqrt((WINDOW_HEIGHT * WINDOW_WIDTH) /(2 * (data->width * data->length)));
-	data->array = (t_array **) malloc((sizeof(t_array *)) * (data->length));
+	data->scale = sqrt((WIN_HEIGHT * WIN_WIDTH) / (2 * (data->width * data->length)));
+	data->array = (t_array **) malloc((sizeof(t_array *))*(data->length));
 	buffer = get_next_line(fd);
-	while (ft_strlen(buffer) > 0)//check what the line in files end with, its not \n
+	while (ft_strlen(buffer) > 0)
 	{
 		tab = ft_split(buffer, ' ');
 		data->array[y] = (t_array *)malloc(sizeof(t_array) * (data->width));
