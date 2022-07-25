@@ -20,39 +20,7 @@ int	handle_keypress(int keysym, t_data *data)
 		|| keysym == XK_l || keysym == XK_Up || keysym == XK_Down
 		|| keysym == XK_a || keysym == XK_d || keysym == XK_w
 		|| keysym == XK_x || keysym == XK_e || keysym == XK_z)
-	{
-		if (keysym == XK_Up)
-			data->z_scale = 2;
-		if (keysym == XK_Down)
-			data->z_scale = 0.80;
-		if (keysym == XK_a)
-			data->roll = data->roll + 0.05;
-		if (keysym == XK_d)
-			data->roll = data->roll - 0.05;
-		if (keysym == XK_w)
-			data->pitch = data->pitch + 0.05;
-		if (keysym == XK_x)
-			data->pitch = data->pitch - 0.05;
-		if (keysym == XK_e)
-			data->yaw = data->yaw + 0.05;
-		if (keysym == XK_z)
-			data->yaw = data->yaw - 0.05;
-		if (keysym == XK_l)
-			translate_data(data, 5, 1);
-		if (keysym == XK_j)
-			translate_data(data, -5, 1);
-		if (keysym == XK_i)
-			translate_data(data, -5, 0);
-		if (keysym == XK_m)
-			translate_data(data, 5, 0);
-		re_draw(data, keysym);
-	}
-	return (0);
-}
-
-int	close_window(t_data *data)
-{
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		update_parameters(data, keysym);
 	return (0);
 }
 
@@ -89,4 +57,33 @@ void	re_draw(t_data *data, int keysym)
 	rotate(data);
 	draw(data);
 	return ;
+}
+
+void	update_parameters(t_data *data, int keysym)
+{
+	if (keysym == XK_Up)
+		data->z_scale = 2;
+	if (keysym == XK_Down)
+		data->z_scale = 0.80;
+	if (keysym == XK_a)
+		data->roll = data->roll + 0.05;
+	if (keysym == XK_d)
+		data->roll = data->roll - 0.05;
+	if (keysym == XK_w)
+		data->pitch = data->pitch + 0.05;
+	if (keysym == XK_x)
+		data->pitch = data->pitch - 0.05;
+	if (keysym == XK_e)
+		data->yaw = data->yaw + 0.05;
+	if (keysym == XK_z)
+		data->yaw = data->yaw - 0.05;
+	if (keysym == XK_l)
+		translate_data(data, 5, 1);
+	if (keysym == XK_j)
+		translate_data(data, -5, 1);
+	if (keysym == XK_i)
+		translate_data(data, -5, 0);
+	if (keysym == XK_m)
+		translate_data(data, 5, 0);
+	re_draw(data, keysym);
 }

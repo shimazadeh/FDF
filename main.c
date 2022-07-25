@@ -12,6 +12,24 @@
 
 #include "fdf.h"
 
+int	close_window(t_data *data)
+{
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	return (0);
+}
+
+void	initialize_parameters(t_data *data)
+{
+	data->roll = 0.523599;
+	data->pitch = -0.523599;
+	data->yaw = 0.523599;
+	data->z_scale = 1;
+	data->zoom = 1;
+	data->scale = sqrt((WIN_HEIGHT * WIN_WIDTH)
+			/ (2 * (data->width * data->length)));
+	return ;
+}
+
 int	rendering(t_data data)
 {
 	data.mlx_ptr = mlx_init();

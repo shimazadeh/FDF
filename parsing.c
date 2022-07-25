@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shabibol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/08 19:10:05 by shabibol          #+#    #+#             */
-/*   Updated: 2022/07/08 19:10:07 by shabibol         ###   ########.fr       */
+/*   Created: 2022/07/25 20:18:03 by shabibol          #+#    #+#             */
+/*   Updated: 2022/07/25 20:18:06 by shabibol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,11 @@ void	set_map_values(t_data *data, t_array *array, char **tab, int y)
 		array[x].y = y * data->scale - (data->scale * data->length / 2);
 		content = ft_split(tab[x], ',');
 		array[x].z = ft_atoi(content[0]) * data->scale;
-		if (!content[1])
-		{
-			if (array[x].z == 0)
-				array[x].color = encode_rgb(255, 255, 255);
-			else
-				array[x].color = encode_rgb(255, 255 / (ft_atoi(content[0])), 0);
-		}
-		else
+		if (!content[1] && array[x].z == 0)
+			array[x].color = encode_rgb(255, 255, 255);
+		else if (!content[1])
+			array[x].color = encode_rgb(255, 255 / (ft_atoi(content[0])), 0);
+		else if (content[1])
 		{
 			put_to_upper(content[1]);
 			array[x].color = ft_atoi_base(content[1], "0123456789ABCDEF");
@@ -84,7 +81,6 @@ void	set_map_values(t_data *data, t_array *array, char **tab, int y)
 		glob_free(content);
 		x++;
 	}
-	return ;
 }
 
 void	create_data_structure(int fd, t_data *data)
@@ -96,12 +92,7 @@ void	create_data_structure(int fd, t_data *data)
 	if (fd < 0)
 		return ;
 	y = 0;
-	data->roll = 0.523599;
-	data->pitch = -0.523599;
-	data->yaw = 0.523599;
-	data->z_scale = 1;
-	data->zoom = 1;
-	data->scale = sqrt((WIN_HEIGHT * WIN_WIDTH) / (2 * (data->width * data->length)));
+	initialize_parameters(data);
 	data->array = (t_array **) malloc((sizeof(t_array *))*(data->length));
 	buffer = get_next_line(fd);
 	while (ft_strlen(buffer) > 0)
@@ -116,5 +107,4 @@ void	create_data_structure(int fd, t_data *data)
 	}
 	free(buffer);
 	close(fd);
-	return ;
 }

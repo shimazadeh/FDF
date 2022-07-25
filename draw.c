@@ -30,7 +30,8 @@ int	draw_background(t_data *data)
 		}
 		++j;
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		data->img.mlx_img, 0, 0);
 	return (0);
 }
 
@@ -57,7 +58,8 @@ int	draw(t_data *data)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		data->img.mlx_img, 0, 0);
 	return (0);
 }
 

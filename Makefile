@@ -17,7 +17,6 @@ PRINTF = ./printf/libftprintf.a
 
 SRCS = fdf.h main.c draw.c parsing.c rotation_partI.c rotation_partII.c hook_events.c free.c ft_atoi_base.c get_next_line.c get_next_line_utils.c
 
-
 OBJS = $(SRCS:%.c=%.o)
 
 FLAGS = -Wall -Wextra -Werror -g3
@@ -31,6 +30,11 @@ $(NAME): $(OBJS)
 
 %.o: %.c
 	gcc $(FLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+
+bonus:  $(OBJS)
+	$(MAKE) -C ./Libft
+	$(MAKE) -C ./printf
+	gcc $(OBJS) -L minilibx-linux -lmlx -lXext -lX11 -lm -o $(NAME) $(PRINTF) $(LIBFT)
 
 clean:
 	rm -f *.o
