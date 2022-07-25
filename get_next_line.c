@@ -84,24 +84,3 @@ char	*get_next_line(int fd)
 	ft_update_line(line, ft_strlen(line));
 	return (line);
 }
-
-/*
-int	main(int ac, char **av)
-{
-	int		fd;
-	char	*res;
-
-	fd = open(av[1], O_RDONLY);
-	if (fd == -1)
-		printf("Error with reading the file\n");
-	else
-		printf("fd is : %d\n", fd);
-	while ((res = get_next_line(fd)))
-	{
-		printf("%s", res);
-		free(res);
-	}
-	printf("%s", res);
-	close(fd);
-	return (0);
-}*/

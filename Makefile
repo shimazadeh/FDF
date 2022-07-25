@@ -15,13 +15,12 @@ NAME = FDF
 LIBFT = ./Libft/libft.a
 PRINTF = ./printf/libftprintf.a
 
-SRCS = fdf.h free.c ft_atoi_base.c main.c translation.c different_method.c matrix_function.c mlx_practice.c projection.c parsing.c get_next_line.c get_next_line_utils.c
+SRCS = fdf.h main.c draw.c parsing.c rotation_partI.c rotation_partII.c hook_events.c projection.c free.c ft_atoi_base.c get_next_line.c get_next_line_utils.c
 
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -g3
-# -Werror -g3
+FLAGS = -Wall -Wextra -Werror -g3
 
 all: $(NAME)
 

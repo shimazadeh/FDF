@@ -95,7 +95,7 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 
 	i = 0;
 	// if (A.columns != B.rows)
-	// 	return (NULL);
+	// 	return ;
 	res.rows = A.rows;
 	res.columns = B.columns;
 	res.data = (double **) malloc(sizeof(double *) * A.rows);
@@ -115,141 +115,22 @@ t_matrix	multiply_two_matrix(t_matrix A, t_matrix B)
 	return (res);
 }
 
-void	rotate(t_array *array, t_matrix rotation)
+t_matrix	initialize_rotation(double roll, double pitch, double yaw)
 {
-	t_matrix	temp;
-	t_matrix 	res;
-	int			i;
-	int			j;
-
-	temp.rows = 3;
-	temp.columns = 1;
-	temp.data = (double **)malloc(sizeof(double *) * 3);
-	temp.data[0] = (double *)malloc(sizeof(double) * 1);
-	temp.data[1] = (double *)malloc(sizeof(double) * 1);
-	temp.data[2] = (double *)malloc(sizeof(double) * 1);
-
-	temp.data[0][0] = (double) array->x;
-	temp.data[1][0] = (double) array->y;
-	temp.data[2][0] = (double) array->z;
-
-	res.rows = 3;
-	res.columns = 1;
-	res.data = (double **) malloc(sizeof(double *) * rotation.rows);
-	i = 0;
-	while (i < rotation.rows)
-	{
-		res.data[i] = (double *)malloc(sizeof(double *) * temp.columns);
-		j = 0;
-		while(j < temp.columns)
-		{
-			res.data[i][j] = rotation.data[i][0]*temp.data[0][j] + rotation.data[i][1]*temp.data[1][j] + rotation.data[i][2]*temp.data[2][j];
-			j++;
-		}
-		i++;
-	}
-	array->x_screen = (int) res.data[0][0] + WINDOW_WIDTH / 2;
-	array->y_screen = (int) res.data[1][0] + WINDOW_HEIGHT / 2;
-	free_matrix(temp);
-	free_matrix(res);
-	return ;
-}
-
-void	rotate_data(t_data *data)
-{
-	int 		i;
-	int 		j;
 	t_matrix	x;
 	t_matrix	y;
 	t_matrix	z;
-	t_matrix	mid;
+	t_matrix	temp;
 	t_matrix	rotation;
 
-	x = initialize_rotation_x_axis(data->roll);
-	y = initialize_rotation_y_axis(data->pitch);
-	z = initialize_rotation_z_axis(data->yaw);
-	mid = multiply_two_matrix(z, y);
-	rotation = multiply_two_matrix(mid, x);
-	// display_matrix(rotation);
-
-	j = 0;
-	while(j < data->length)
-	{
-		i = 0;
-		while(i < data->width)
-		{
-			rotate(&data->array[j][i], rotation);
-			i++;
-		}
-		j++;
-	}
-	free_matrix(rotation);
+	x = initialize_rotation_x_axis(roll);
+	y = initialize_rotation_y_axis(pitch);
+	z = initialize_rotation_z_axis(yaw);
+	temp = multiply_two_matrix(z, y);
+	rotation = multiply_two_matrix(temp, x);
 	free_matrix(x);
 	free_matrix(y);
 	free_matrix(z);
-	free_matrix(mid);
-	return ;
-}
-
-
-void	zoom(t_data *data, double zoom)
-{
-	int 		i;
-	int 		j;
-
-	j = 0;
-	while(j < data->length)
-	{
-		i = 0;
-		while(i < data->width)
-		{
-			data->array[j][i].x = data->array[j][i].x * zoom;
-			data->array[j][i].y = data->array[j][i].y * zoom;
-			data->array[j][i].z = data->array[j][i].z * zoom;
-			i++;
-		}
-		j++;
-	}
-	return ;
-}
-
-
-void	scale_z(t_data *data, double scale)
-{
-	int 		i;
-	int 		j;
-
-	j = 0;
-	while(j < data->length)
-	{
-		i = 0;
-		while(i < data->width)
-		{
-			data->array[j][i].z = data->array[j][i].z * scale;
-			i++;
-		}
-		j++;
-	}
-	return ;
-}
-
-void	display_matrix(t_matrix A)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while(i < 3)
-	{
-		j = 0;
-		while(j < 3)
-		{
-			printf("%f ", A.data[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-	printf("\n");
-	return ;
+	free_matrix(temp);
+	return (rotation);
 }

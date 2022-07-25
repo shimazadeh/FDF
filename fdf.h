@@ -26,8 +26,8 @@
 
 
 # define MLX_ERROR 1
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0xFF00
@@ -76,15 +76,17 @@ typedef struct s_data
 	int		width;
 	int		length;
 
-	int		scale;
-	int		zoom;
+	double	scale;
+	double	z_scale;
+	double	zoom;
+
 	double	roll;
 	double	pitch;
 	double	yaw;
 } t_data;
 
-int	ft_atoi_base(char *str, char *base);
-void	put_to_upper(char *str);
+int			ft_atoi_base(char *str, char *base);
+void		put_to_upper(char *str);
 
 int			handle_no_event(void *data);
 int			handle_keyrelease(int keysym, t_data *data);
@@ -95,41 +97,45 @@ int			handle_no_event(void *data);
 
 
 
-int			render(t_data *data);
-void		img_pix_put(t_img *img, int x, int y, int color);
-
-void		fdf_parsing(int fd, t_data *data);
+void		create_data_structure(int fd, t_data *data);
+void		set_map_values(t_data *data, t_array *array, char **tab, int y);
 int			number_of_lines(int fd, t_data *data);
-int			render_map(t_data *data);
 int			encode_rgb(u_int8_t red, u_int8_t green, u_int8_t blue);
 
 void		update_2D_coordinates(t_array *array, double angle, t_data *data);
 void		isometric_projection(t_data *data, double angle);
 
-void		display_matrix(t_matrix A);
 
-
-void		bresenham(t_array *start, t_array *end, t_img img);
-void		evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
-void		drawing_lines(t_data *data);
+void		img_pix_put(t_img *img, int x, int y, int color);
 int			draw_background(t_data *data);
+int			draw(t_data *data);
+void		draw_line(t_array *start, t_array *end, t_img img);
+void		evaluate_conditions_execute(t_array *start, t_array *end, t_img img);
+void		re_draw(t_data *data, int keysym);
 
-void		rotate_data(t_data *data);
-void		rotate(t_array *array, t_matrix rotation);
-void	perspective(t_array *array, double angle, t_data *data);
-
+void		rotate(t_data *data);
+void		rotate_point(t_array *array, t_matrix rotation);
 
 void		zoom(t_data *data, double zoom);
 void		scale_z(t_data *data, double scale);
+
+int			rendering(t_data data);
+
+
+void		perspective(t_array *array, double angle, t_data *data);
+
+
 
 t_matrix	multiply_two_matrix(t_matrix A, t_matrix B);
 t_matrix	initialize_rotation_z_axis(double angle);
 t_matrix	initialize_rotation_y_axis(double angle);
 t_matrix	initialize_rotation_x_axis(double angle);
+t_matrix	initialize_rotation(double roll, double pitch, double yaw);
 
 t_matrix	initialize_translation(double tx, double ty);
 void		translate(t_array *array, t_matrix translation);
 void		translate_data(t_data *data, int tx, int ty);
+void		display_matrix(t_matrix A);
 
 
 char	**glob_free(char **dst);

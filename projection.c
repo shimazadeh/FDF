@@ -39,9 +39,9 @@ void	isometric_projection(t_data *data, double angle)
 }
 void	perspective(t_array *array, double angle, t_data *data)
 {
-	double r;
-	r = -1 / (10);
-	array->x_screen = (int) (array->x / (r * array->z + 1)) + (WINDOW_WIDTH/ 2);
-	array->y_screen = (int) (array->y / (r * array->z + 1)) + ((WINDOW_HEIGHT)/ 2);
+	(void)angle;
+	(void)data;
+	array->x_screen = (int) (array->x / (tan(0.523599) * array->z));
+	array->y_screen = (int) (array->y / (tan(0.523599) * array->z));
 	return ;
 }

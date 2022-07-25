@@ -10,17 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// int	ft_strlen(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	return (i);
-// }
-
 #include "fdf.h"
+
 int	ft_is_whitespace(char c)
 {
 	int		i;
@@ -102,15 +93,3 @@ int	ft_atoi_base(char *str, char *base)
 	}
 	return (0);
 }
-
-// #include <stdio.h>
-
-// int ft_atoi_base(char *str, char *base);
-
-// int	main(int argc, char **argv)
-// {
-// 	(void)argc;
-// 	printf("%d\n", ft_atoi_base(argv[1], argv[2]));
-// 	printf("the red if %d, white is %d, blue is %d\n",0xFF0000 , 0xFFFFFF, 0x0000FF);
-// 	return (0);
-// }
