@@ -53,6 +53,8 @@ int	number_of_lines(int fd, t_data *data)
 	free(buffer);
 	data->width = dimension[0];
 	data->length = dimension[1];
+	if (data->width <= 0 || data->length == 0)
+		return (-1);
 	close(fd);
 	return (0);
 }

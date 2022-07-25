@@ -69,8 +69,9 @@ int	main(int ac, char **ag)
 	else
 		return (ft_printf("invalid number of arguments\n"), -1);
 	if (number_of_lines(fd, &data) < 0)
-		return (-1);
+		return (ft_printf("error with map dimensions\n"), -1);
 	fd = open(ag[1], O_RDONLY);
+	printf("width and length is %d, %d\n", data.width, data.length);
 	create_data_structure(fd, &data);
 	rotate(&data);
 	rendering(data);
