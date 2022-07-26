@@ -50,6 +50,7 @@ int	rendering(t_data data)
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 	mlx_hook(data.win_ptr, 33, 131072, &close_window, &data);
 	mlx_loop(data.mlx_ptr);
+	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);
 	return (0);
@@ -69,9 +70,8 @@ int	main(int ac, char **ag)
 	else
 		return (ft_printf("invalid number of arguments\n"), -1);
 	if (number_of_lines(fd, &data) < 0)
-		return (ft_printf("error with map dimensions\n"), -1);
+		return (ft_printf("empty file\n"), -1);
 	fd = open(ag[1], O_RDONLY);
-	printf("width and length is %d, %d\n", data.width, data.length);
 	create_data_structure(fd, &data);
 	rotate(&data);
 	rendering(data);

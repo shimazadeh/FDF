@@ -42,7 +42,7 @@ int	number_of_lines(int fd, t_data *data)
 		return (perror(NULL), -1);
 	buffer = get_next_line(fd);
 	if (!buffer)
-		return (ft_printf("empty file\n"), -1);
+		return (-1);
 	dimension[0] = ft_size_word(buffer, ' ') - 1;
 	while (ft_strlen(buffer) > 0)
 	{
@@ -70,7 +70,7 @@ void	set_map_values(t_data *data, t_array *array, char **tab, int y)
 		array[x].x = x * data->scale - (data->scale * data->width / 2);
 		array[x].y = y * data->scale - (data->scale * data->length / 2);
 		content = ft_split(tab[x], ',');
-		array[x].z = ft_atoi(content[0]) * data->scale;
+		array[x].z = ft_atoi(content[0]) * 8;
 		if (!content[1] && array[x].z == 0)
 			array[x].color = encode_rgb(255, 255, 255);
 		else if (!content[1])
