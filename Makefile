@@ -26,6 +26,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(MAKE) -C ./Libft
 	$(MAKE) -C ./printf
+	$(MAKE) -C ./minilibx-linux
 	gcc $(OBJS) -L minilibx-linux -lmlx -lXext -lX11 -lm -o $(NAME) $(PRINTF) $(LIBFT)
 
 %.o: %.c
@@ -34,6 +35,7 @@ $(NAME): $(OBJS)
 bonus:  $(OBJS)
 	$(MAKE) -C ./Libft
 	$(MAKE) -C ./printf
+	$(MAKE) -C ./minilibx-linux
 	gcc $(OBJS) -L minilibx-linux -lmlx -lXext -lX11 -lm -o $(NAME) $(PRINTF) $(LIBFT)
 
 clean:
