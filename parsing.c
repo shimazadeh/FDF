@@ -43,7 +43,7 @@ int	number_of_lines(int fd, t_data *data)
 	buffer = get_next_line(fd);
 	if (!buffer)
 		return (-1);
-	dimension[0] = ft_size_word(buffer, ' ') - 1;
+	dimension[0] = ft_size_word(buffer, ' ');
 	while (ft_strlen(buffer) > 0)
 	{
 		dimension[1]++;
