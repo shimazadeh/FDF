@@ -6,7 +6,7 @@ The program takes a map as parameter and creates its 3d representation.
 ## Implementation
 Here is a summary of how the overal program works:
 - Parsing: the map which is presented as a file is read line by line and the values are parsed and stored into the following data structure where x, y, z and color values are the directly taken from the map:
--       - typedef struct s_array{
+-       typedef struct s_array{
               double	x;
               double	y;
               double	z;
@@ -18,10 +18,10 @@ Here is a summary of how the overal program works:
 - Then matrix-vector multiplication of the x, y and z with the rotation matrix is used to calculate the x_screen and y_screen at every point. For this application we chose to initialize the rotation matrix to: roll = 0.523599, pitch = -0.523599, yaw = 0.523599. you can modify these angles accordingly they will represent the first view of the map. 
 - Bresenham's Line Drawing Algorithm is used to draw lines between every two points. 
 - Hooks:
-      - you can rotate around roll, pitch and yaw using D,A,W,X,Z and E keys
-      - you can zoom in/out of the map as usual.
-      - you can adjust the altitude coefficient using up/down arrow.
-      - Colors of the map changes depending on the altitude of the map.
+  - Rotation: You can rotate the view using the keys D (roll -), A (roll +), W (picth +), X (pitch -), Z (yaw -), and E (yaw +).
+  - Zoom: Zoom in and out of the map as needed.
+  - Altitude Adjustment: Fine-tune the altitude scale coefficient using the up and down arrow keys.
+  - Color Variation: The map's colors dynamically change based on its altitude.
 
 ## Usage
 One of the requirement of this project was to use 42l's minilibX. 
