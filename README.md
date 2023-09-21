@@ -6,7 +6,7 @@ The program takes a map as parameter and creates its 3d representation.
 ## Implementation
 Here is a summary of how the overal program works:
 - Parsing: the map which is presented as a file is read line by line and the values are parsed and stored into the following data structure where x, y, z and color values are the directly taken from the map:
-      typedef struct s_array{
+-       - typedef struct s_array{
               double	x;
               double	y;
               double	z;
@@ -45,8 +45,6 @@ https://github.com/shimazadeh/FDF/assets/67879533/9d9998dd-ce92-486d-a6c3-0df45a
 ### Render maps with different color scheme
 
 <img width="1269" alt="Screen Shot 2023-09-21 at 5 51 12 PM" src="https://github.com/shimazadeh/FDF/assets/67879533/677e2382-18fd-4848-874f-fe55f06ad0ba">
-
-<img width="1268" alt="Screen Shot 2023-09-21 at 5 51 47 PM" src="https://github.com/shimazadeh/FDF/assets/67879533/84eb0f36-d9c2-4abe-b935-4594c9f61cac">
 
 ***Explore more by using the maps in the map directory of the repo!***
 
