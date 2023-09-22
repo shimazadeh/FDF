@@ -1,7 +1,20 @@
 # FDF | 3D Wireframe Viewer | 42Paris
 
 ## Introduction
-The program takes a map as parameter and creates its 3d representation. 
+The program takes a map as a parameter and creates its 3d representation. Here is an example of a map:
+
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+0  0 10 10  0  0 10 10  0  0  0 10 10 10 10 10  0  0  0
+0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
+0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
+0  0 10 10 10 10 10 10  0  0  0  0 10 10 10 10  0  0  0
+0  0  0 10 10 10 10 10  0  0  0 10 10  0  0  0  0  0  0
+0  0  0  0  0  0 10 10  0  0  0 10 10  0  0  0  0  0  0
+0  0  0  0  0  0 10 10  0  0  0 10 10 10 10 10 10  0  0
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
 
 ## Implementation
 Here is a summary of how the overal program works:
@@ -25,7 +38,7 @@ Here is a summary of how the overal program works:
 
 ## Usage
 One of the requirement of this project was to use 42l's minilibX. 
-- This project is designed to work with minilibx for linux version make sure you have the folder in the repository.  
+- This project is designed to work with minilibx for linux version make sure you have the minilibx-linux version in the repo.
 - git clone https://github.com/shimazadeh/FDF.git FDF
 - cd FDF
 - make
