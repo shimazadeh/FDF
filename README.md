@@ -1,20 +1,7 @@
 # FDF | 3D Wireframe Viewer | 42Paris
 
 ## Introduction
-The program takes a map as a parameter and creates its 3d representation. Here is an example of a map:
-
-0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-0  0 10 10  0  0 10 10  0  0  0 10 10 10 10 10  0  0  0
-0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
-0  0 10 10  0  0 10 10  0  0  0  0  0  0  0 10 10  0  0
-0  0 10 10 10 10 10 10  0  0  0  0 10 10 10 10  0  0  0
-0  0  0 10 10 10 10 10  0  0  0 10 10  0  0  0  0  0  0
-0  0  0  0  0  0 10 10  0  0  0 10 10  0  0  0  0  0  0
-0  0  0  0  0  0 10 10  0  0  0 10 10 10 10 10 10  0  0
-0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-
+The program takes a 2D map as a parameter and creates its 3D projection. The column is the x, the line is the y and the value is the z.
 
 ## Implementation
 Here is a summary of how the overal program works:
